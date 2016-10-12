@@ -1,0 +1,23 @@
+AllCops:
+  Include:
+    - Rakefile
+    - config.ru
+    - lib/**/*.rake
+  Exclude:
+    - db/**/*
+    - bin/**/*    
+    - config/**/*    
+    - spec/**/*  
+  DisplayCopNames: true      
+
+Rails:
+  Enabled: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: false  
+
+Style/Documentation:  
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 100
