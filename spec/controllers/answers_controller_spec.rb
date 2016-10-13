@@ -44,7 +44,7 @@ describe AnswersController do
       end
 
       it 'does not save the answer to database' do
-        expect { post :create, params: params }.to_not change(question.answers, :count)
+        expect { post :create, params: params }.to_not change(Answer, :count)
       end
 
       it 'renders new view' do
@@ -53,5 +53,4 @@ describe AnswersController do
       end
     end
   end
-
 end

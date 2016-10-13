@@ -4,7 +4,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @question = Question.find(params['question_id'])
+    @question = Question.find(params[:question_id])
     @answer = @question.answers.build(answer_params)
 
     if @answer.save
