@@ -7,16 +7,15 @@ class QuestionsController < ApplicationController
     @question = Question.new(question_params)
 
     if @question.save
-      redirect_to @question  
+      redirect_to @question
     else
       render :new
     end
   end
 
-  private 
+  private
 
   def question_params
     params.require(:question).permit(:title, :body)
   end
-
 end

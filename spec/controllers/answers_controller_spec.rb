@@ -19,8 +19,8 @@ describe AnswersController do
   describe 'POST #create' do
     context 'with valid attributes' do
       let(:params) do
-        { 
-          answer:      attributes_for(:answer), 
+        {
+          answer:      attributes_for(:answer),
           question_id: question.id
         }
       end
@@ -35,10 +35,10 @@ describe AnswersController do
       end
     end
 
-    context 'with invalid attributes' do 
+    context 'with invalid attributes' do
       let(:params) do
-        { 
-          answer:      attributes_for(:invalid_answer), 
+        {
+          answer:      attributes_for(:invalid_answer),
           question_id: question.id
         }
       end
