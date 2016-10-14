@@ -7,7 +7,8 @@ AllCops:
     - db/**/*
     - bin/**/*    
     - config/**/*    
-    - spec/**/*        
+    - spec/**/*  
+  DisplayCopNames: true      
 
 Rails:
   Enabled: true
