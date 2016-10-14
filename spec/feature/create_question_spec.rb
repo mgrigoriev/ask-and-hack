@@ -6,7 +6,7 @@ feature 'Create question', %q{
   I want to be able to ask questions
 } do
 
-  scenario 'User creates question' do
+  scenario 'User creates question with valid data' do
     visit questions_path
     
     click_on 'Ask question'
@@ -19,5 +19,7 @@ feature 'Create question', %q{
     expect(page).to have_content 'My question body'   
     expect(page).to have_current_path(/\/questions\/[0-9]+\/?$/) 
   end
+
+  scenario 'User creates question with invalid data'
   
 end
