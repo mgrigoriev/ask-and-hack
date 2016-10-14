@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'create question', %q{
+feature 'Create question', %q{
   In order to get answer from community
   As User
   I want to be able to ask questions
@@ -17,7 +17,7 @@ feature 'create question', %q{
     expect(page).to have_content 'Question added successfully'
     expect(page).to have_content 'My question title'
     expect(page).to have_content 'My question body'   
-    expect(path).to have_current_path(/\/question\/[0-9]+/) 
+    expect(page).to have_current_path(/\/questions\/[0-9]+\/?$/) 
   end
   
 end
