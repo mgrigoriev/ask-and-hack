@@ -2,6 +2,33 @@ require 'rails_helper'
 
 describe QuestionsController do
 
+  describe 'GET #index' do
+    let(:q1) { create(:question) } 
+    let(:q2) { create(:question2) }
+
+    before { get :index }
+
+    it 'assigns questions to include q1, q2' do
+      expect(assigns(:questions)).to include(q1, q2)
+    end
+
+    it 'renders view index' do
+      expect(response).to render_template :index
+    end
+  end
+
+  describe 'GET #show' do
+    let(:question_with_answers) { create(:question_with_answers) }
+    
+    before { get :show, params: {id: question_with_answers.id} } 
+
+    it 'assigns question to @question' do
+      # byebug
+      expect(assigns(:question)).to eq(question_with_answers)
+    end
+
+  end
+
   describe 'GET #new' do
     before { get :new }
 

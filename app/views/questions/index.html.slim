@@ -1,0 +1,10 @@
+= link_to 'Ask question', new_question_path
+
+h1 List of Questions
+
+- if not @questions.empty?
+  ul
+    - @questions.each do |question|
+      li = link_to question.title, question
+- else
+  p There is no questions

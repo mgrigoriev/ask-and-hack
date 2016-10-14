@@ -1,20 +1,7 @@
 require 'rails_helper'
-require 'pp'
 
 describe AnswersController do
   let(:question) { create(:question) }
-
-  describe 'GET #new' do
-    before { get :new, params: { question_id: question.id } }
-
-    it 'assigns new answer to @answer' do
-      expect(assigns(:answer)).to be_a_new(Answer)
-    end
-
-    it 'renders view new' do
-      expect(response).to render_template :new
-    end
-  end
 
   describe 'POST #create' do
     context 'with valid attributes' do
@@ -49,7 +36,7 @@ describe AnswersController do
 
       it 'renders new view' do
         post :create, params: params
-        expect(response).to render_template :new
+        expect(response).to render_template 'questions/show'
       end
     end
   end

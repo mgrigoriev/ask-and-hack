@@ -1,8 +1,5 @@
 class AnswersController < ApplicationController
-  def new
-    @answer = Answer.new
-  end
-
+  
   def create
     @question = Question.find(params[:question_id])
     @answer = @question.answers.build(answer_params)
@@ -10,7 +7,8 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question
     else
-      render :new
+      @question.reload
+      render 'questions/show'
     end
   end
 
