@@ -7,8 +7,7 @@ feature 'Create question', %q{
 } do
 
   scenario 'User creates question with valid data' do
-    visit questions_path
-    
+    visit questions_path  
     click_on 'Ask question'
     fill_in 'Title', with: 'My question title'
     fill_in 'Description', with: 'My question body'
