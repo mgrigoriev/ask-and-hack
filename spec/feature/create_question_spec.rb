@@ -16,9 +16,16 @@ feature 'Create question', %q{
     expect(page).to have_content 'Question added successfully'
     expect(page).to have_content 'My question title'
     expect(page).to have_content 'My question body'   
-    expect(page).to have_current_path(/\/questions\/[0-9]+\/?$/) 
+    # expect(page).to have_current_path(/\/questions\/[0-9]+\/?$/) 
   end
 
-  scenario 'User creates question with invalid data'
+  scenario 'User creates question with invalid data' do
+    visit questions_path  
+    click_on 'Ask question'
+    click_on 'Submit'
+
+#    expect(page).to have_css '.error_explanation'
+    expect(page).to have_css '.field_with_errors'    
+  end
   
 end
