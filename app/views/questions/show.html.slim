@@ -1,2 +1,14 @@
 h1 = @question.title
 p = @question.body
+
+- if not @question.answers.blank?
+  - @question.answers.each do |answer|
+    ul
+      li = answer.body
+- else
+  p There is no answers
+
+= form_for([@question, @question.answers.build]) do |f|
+  = f.label :body, 'Your Answer'
+  = f.text_area :body
+  = f.submit 'Submit'

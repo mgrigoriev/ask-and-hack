@@ -15,7 +15,7 @@ feature 'Create answer', %q{
     visit question_path @question
     fill_in 'Your Answer', with: 'My answer to the question'
     click_on 'Submit'
-    expect page_to have_content('My answer to the question')
+    expect(page).to have_content('My answer to the question')
   end
 
   scenario 'User creates the answer with invalid data'
