@@ -6,9 +6,12 @@ feature 'Create question', %q{
   I want to be able to ask questions
 } do
 
-  scenario 'User creates question with valid data' do
+  background do
     visit questions_path  
     click_on 'Ask question'
+  end
+
+  scenario 'User creates question with valid data' do
     fill_in 'Title', with: 'My question title'
     fill_in 'Description', with: 'My question body'
     click_on 'Submit'
@@ -20,8 +23,6 @@ feature 'Create question', %q{
   end
 
   scenario 'User creates question with invalid data' do
-    visit questions_path  
-    click_on 'Ask question'
     click_on 'Submit'
 
     expect(page).to have_css '.error_explanation'
