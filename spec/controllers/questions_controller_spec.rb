@@ -17,6 +17,18 @@ describe QuestionsController do
     end
   end
 
+  describe 'GET #show' do
+    let(:question_with_answers) { create(:question_with_answers) }
+    
+    before { get :show, params: {id: question_with_answers.id} } 
+
+    it 'assigns question to @question' do
+      # byebug
+      expect(assigns(:question)).to eq(question_with_answers)
+    end
+
+  end
+
   describe 'GET #new' do
     before { get :new }
 
