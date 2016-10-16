@@ -7,6 +7,16 @@ feature 'Create answer', %q{
   I want to create the answer to the question
 } do 
 
-  scenario 'User creates the answer with valid data'
+  background do
+    @question = create(:question)
+  end
+
+  scenario 'User creates the answer with valid data' do
+    visit question_path @question
+    fill_in 'Your Answer', with: 'My answer to the question'
+    click_on 'Submit'
+    expect page_to have_content('My answer to the question')
+  end
+
   scenario 'User creates the answer with invalid data'
 end

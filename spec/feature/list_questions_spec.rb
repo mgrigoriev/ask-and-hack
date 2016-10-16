@@ -6,7 +6,6 @@ feature 'View list of questions', %q{
   I want to be able to see a list of questions
 } do
 
-
   scenario 'User sees a list of question' do
     q1 = create(:question)
     q2 = create(:question2)
