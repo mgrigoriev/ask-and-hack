@@ -12,7 +12,7 @@ feature 'Delete question', %q{
   scenario 'Author deletes the question' do
     sign_in(question.user)
     visit question_path question
-    click_link 'Delete'
+    click_link 'delete question'
     expect(page).to have_content 'Question deleted successfully'
   end
 
