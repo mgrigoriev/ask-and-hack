@@ -65,4 +65,29 @@ describe QuestionsController do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    login_user
+    
+    context 'is author' do
+      let(:question) { create(:question, user: @user) } 
+      
+      it 'deletes question from database' do
+        question = @user.questions.create(title: 'My question title', body: 'My question body')
+        expect { delete :destroy, params: { id: question.id } }.to change(Question, :count).by(-1)
+      end
+
+      # it 'redirects to index view' do
+      # end
+    end
+
+    # context 'is not author' do
+    #   it 'deletes question from database' do
+    #   end
+
+    #   it 'renders question view' do
+    #   end
+    # end
+
+  end
 end
