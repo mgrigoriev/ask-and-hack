@@ -1,10 +1,18 @@
 h1 = @question.title
 p = @question.body
 
-- if not @question.answers.empty?
+- if current_user && current_user.author_of?(@question)
+  = link_to 'delete question', @question, method: :delete, data: { confirm: 'Are you sure?' }
+
+- if !@question.answers.empty?
   ul
     - @question.answers.each do |answer|
-      li = answer.body
+      - if answer.persisted?
+        li
+          = answer.body
+          - if current_user && current_user.author_of?(answer)
+            br
+            = link_to 'delete answer', answer, method: :delete, data: { confirm: 'Are you sure?' }
 - else
   p There is no answers
 

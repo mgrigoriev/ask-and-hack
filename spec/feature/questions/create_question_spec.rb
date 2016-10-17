@@ -28,8 +28,8 @@ feature 'Create question', %q{
     click_on 'Ask question'
     click_on 'Submit'
 
-    expect(page).to have_css '.error_explanation'
-    expect(page).to have_css '.field_with_errors'
+    expect(page).to have_content 'prevented this form from being submited'
+    expect(page).to have_content "Title can't be blank"
   end
 
   scenario 'Non-authenticated user tries to create question' do
@@ -37,6 +37,5 @@ feature 'Create question', %q{
     click_on 'Ask question'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing'
-  end  
-  
+  end
 end

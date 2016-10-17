@@ -16,3 +16,5 @@ config/database.yml
 # Dev Machines
 .DS_Store
 */.DS_Store
+
+.idea/

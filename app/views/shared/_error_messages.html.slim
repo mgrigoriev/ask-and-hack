@@ -1,4 +1,4 @@
-- if target and target.errors.any?
+- if target && target.errors.any?
   .error_explanation
     h2
       = pluralize(target.errors.count, "error") 

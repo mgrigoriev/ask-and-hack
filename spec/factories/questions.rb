@@ -1,6 +1,7 @@
 FactoryGirl.define do
 
   factory :question do
+    user
     title 'My question title'
     body 'My question body'
 
@@ -16,11 +17,13 @@ FactoryGirl.define do
   end
 
   factory :question2, class: Question do
+    user
     title "The second question title"
     body "The second question body"
   end
 
   factory :invalid_question, class: Question do
+    user
     title nil
     body nil
   end

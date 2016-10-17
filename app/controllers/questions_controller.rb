@@ -15,6 +15,7 @@ class QuestionsController < ApplicationController
 
   def create
     @question = Question.new(question_params)
+    @question.user = current_user
 
     if @question.save
       flash[:notice] = "Question added successfully"
@@ -22,6 +23,14 @@ class QuestionsController < ApplicationController
     else
       render :new
     end
+  end
+
+  def destroy
+    if current_user.author_of?(@question)
+      flash[:notice] = "Question deleted successfully"
+      @question.destroy
+    end
+    redirect_to questions_path
   end
 
   private

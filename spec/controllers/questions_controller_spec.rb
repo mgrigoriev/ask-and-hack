@@ -43,9 +43,10 @@ describe QuestionsController do
 
   describe 'POST #create' do
     login_user
+
     context 'with valid attributes' do
       it 'saves the question to database' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        expect { post :create, params: { question: attributes_for(:question) } }.to change(@user.questions, :count).by(1)
       end
 
       it 'redirects to show view' do
@@ -62,6 +63,33 @@ describe QuestionsController do
       it 'renders new view' do
         post :create, params: { question: attributes_for(:invalid_question) }
         expect(response).to render_template :new
+      end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    login_user
+    
+    context 'is author' do
+      let(:question) { @user.questions.create(title: 'My question title', body: 'My question body') }
+      before { question }
+
+      it 'deletes question from database' do
+        expect { delete :destroy, params: { id: question.id } }.to change(Question, :count).by(-1)
+      end
+
+      it 'redirects to index view' do
+        delete :destroy, params: { id: question.id }
+        expect(response).to redirect_to questions_path
+      end
+    end
+
+    context 'is not author' do
+      let(:question) { create(:user).questions.create(title: 'My question title', body: 'My question body') }
+      before { question }
+
+      it 'does not delete question from database' do
+        expect { delete :destroy, params: { id: question.id } }.to_not change(Question, :count)
       end
     end
   end
