@@ -23,13 +23,13 @@ describe QuestionsController do
     before { get :show, params: {id: question_with_answers.id} } 
 
     it 'assigns question to @question' do
-      # byebug
       expect(assigns(:question)).to eq(question_with_answers)
     end
 
   end
 
   describe 'GET #new' do
+    login_user
     before { get :new }
 
     it 'assigns new question to @question' do
@@ -42,6 +42,7 @@ describe QuestionsController do
   end
 
   describe 'POST #create' do
+    login_user
     context 'with valid attributes' do
       it 'saves the question to database' do
         expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)

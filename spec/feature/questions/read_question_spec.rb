@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-feature 'View question and answers', %q{
+feature 'Read question and answers', %q{
   In order to find useful information
   As User
   I want to be able to read question and answers

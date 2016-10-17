@@ -4,6 +4,7 @@ describe AnswersController do
   let(:question) { create(:question) }
 
   describe 'POST #create' do
+    login_user
     context 'with valid attributes' do
       let(:params) do
         {

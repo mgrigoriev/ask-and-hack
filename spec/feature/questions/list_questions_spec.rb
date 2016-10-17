@@ -1,9 +1,9 @@
 require 'rails_helper'
 
-feature 'View list of questions', %q{
+feature 'Browse list of questions', %q{
   In order to find an interesting question
   As User
-  I want to be able to see a list of questions
+  I want to be able to browse a list of questions
 } do
 
   scenario 'User sees a list of question' do
