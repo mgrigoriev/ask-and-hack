@@ -1,10 +1,14 @@
 h1 = @question.title
 p = @question.body
 
+- if current_user == @question.user
+  = link_to 'Delete', @question, method: :delete, data: { confirm: 'Are you sure?' }
+
 - if not @question.answers.empty?
   ul
     - @question.answers.each do |answer|
-      li = answer.body
+      li
+        = answer.body
 - else
   p There is no answers
 
