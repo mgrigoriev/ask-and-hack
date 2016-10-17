@@ -7,12 +7,12 @@ feature 'View question and answers', %q{
 } do
 
     scenario 'User reads question and answers' do
-      question = create(:question_with_answers)
-      
-      visit question_path question
-      expect(page).to have_content question.title
-      expect(page).to have_content question.body      
-      question.answers.each do |answer|
+        question = create(:question_with_answers)
+        
+        visit question_path question
+        expect(page).to have_content question.title
+        expect(page).to have_content question.body      
+        question.answers.each do |answer|
         expect(page).to have_content answer.body
       end
     end

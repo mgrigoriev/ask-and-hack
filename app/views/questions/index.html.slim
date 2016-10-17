@@ -2,7 +2,7 @@
 
 h1 List of Questions
 
-- if not @questions.blank?
+- if not @questions.empty?
   ul
     - @questions.each do |question|
       li = link_to question.title, question

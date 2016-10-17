@@ -9,14 +9,18 @@ feature 'Create answer', %q{
 
   background do
     @question = create(:question)
+    visit question_path @question
   end
 
   scenario 'User creates the answer with valid data' do
-    visit question_path @question
     fill_in 'Your Answer', with: 'My answer to the question'
     click_on 'Submit'
     expect(page).to have_content('My answer to the question')
   end
 
-  scenario 'User creates the answer with invalid data'
+  scenario 'User creates the answer with invalid data' do
+    click_on 'Submit'
+    expect(page).to_not have_content('My answer to the question')
+    expect(page).to have_css '.error_explanation'    
+  end
 end

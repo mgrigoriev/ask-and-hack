@@ -1,14 +1,15 @@
 h1 = @question.title
 p = @question.body
 
-- if not @question.answers.blank?
-  - @question.answers.each do |answer|
-    ul
+- if not @question.answers.empty?
+  ul
+    - @question.answers.each do |answer|
       li = answer.body
 - else
   p There is no answers
 
 = form_for([@question, @question.answers.build]) do |f|
+  = render 'shared/error_messages', target: @answer
   = f.label :body, 'Your Answer'
   = f.text_area :body
   = f.submit 'Submit'
