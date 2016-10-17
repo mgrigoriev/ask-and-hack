@@ -16,7 +16,7 @@ feature 'Delete question', %q{
     expect(page).to have_content 'Question deleted successfully'
   end
 
-  scenario 'Non-author deletes the question' do
+  scenario 'Non-author tries to delete the question' do
     sign_in(user)
     visit question_path question
     expect(page).to_not have_link 'Delete'
