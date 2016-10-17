@@ -1,7 +1,7 @@
 require 'rails_helper'
 
-feature 'Siging in', %q{
-  In order to ask questions and give answers
+feature 'Signing in', %q{
+  In order to ask questions or give answer
   As User
   I want be able to sign in
  } do
