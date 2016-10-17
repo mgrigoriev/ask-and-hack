@@ -70,7 +70,6 @@ describe AnswersController do
       before { answer }
 
       it 'does not delete answer from database' do
-        byebug
         expect { delete :destroy, params: { id: answer.id } }.to_not change(Answer, :count)
       end
     end

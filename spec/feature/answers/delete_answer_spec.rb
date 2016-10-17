@@ -6,20 +6,21 @@ feature 'Delete answer', %q{
   I want to delete the answer 
 } do 
 
-  given(:question) { create(:question_with_answers) }
-  given(:answer) { question.answers.first }
-  given(:user) { create(:user) }
+  given(:author)   { create(:user) }
+  given(:stranger) { create(:user) }  
+  given(:question) { create(:question, user: author) }
+  given(:answer)   { create(:answer, question: question, user: author) }
 
   scenario 'Author deletes the answer' do
     sign_in(answer.user)
-    visit question_path question
+    visit question_path answer.question
     click_link 'delete answer'
     expect(page).to have_content 'Answer deleted successfully'
   end
 
   scenario 'Non-author tries to delete the question' do
-    sign_in(user)
-    visit question_path question
+    sign_in(stranger)
+    visit question_path answer.question
     expect(page).to_not have_link 'delete answer'
   end
   

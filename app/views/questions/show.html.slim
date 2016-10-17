@@ -9,6 +9,9 @@ p = @question.body
     - @question.answers.each do |answer|
       li
         = answer.body
+        - if current_user == answer.user
+          br 
+          = link_to 'delete answer', answer, method: :delete, data: { confirm: 'Are you sure?' }
 - else
   p There is no answers
 
