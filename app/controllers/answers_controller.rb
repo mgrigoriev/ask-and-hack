@@ -9,18 +9,17 @@ class AnswersController < ApplicationController
     if @answer.save
       redirect_to @question
     else
-      @question.reload
       render 'questions/show'
     end
   end
 
   def destroy
     @answer = Answer.find(params[:id])
-    if @answer.user == current_user
+    if current_user.author_of?(@answer)
       @answer.destroy
       flash[:notice] = 'Answer deleted successfully'
     end
-    redirect_to question_path @answer.question
+    redirect_to @answer.question
   end
 
   private

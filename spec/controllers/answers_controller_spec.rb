@@ -15,7 +15,7 @@ describe AnswersController do
       end
 
       it 'saves the answer to database' do
-        expect { post :create, params: params }.to change(question.answers, :count).by(1)
+        expect { post :create, params: params }.to change(question.answers.where(user: @user), :count).by(1)
       end
 
       it 'redirects to questions#show view' do

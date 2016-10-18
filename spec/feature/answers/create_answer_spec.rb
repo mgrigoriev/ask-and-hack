@@ -11,7 +11,7 @@ feature 'Create answer', %q{
 
   scenario 'User creates the answer with valid data' do
     sign_in(user)
-    visit question_path create(:question)
+    visit question_path(create(:question))
     fill_in 'Your Answer', with: 'My answer to the question'
     click_on 'Submit'
     expect(page).to have_content('My answer to the question')
@@ -19,13 +19,14 @@ feature 'Create answer', %q{
 
   scenario 'User creates the answer with invalid data' do
     sign_in(user)
-    visit question_path create(:question)    
+    visit question_path(create(:question))
     click_on 'Submit'
-    expect(page).to have_css '.error_explanation'    
+    expect(page).to have_content 'prevented this form from being submited'
+    expect(page).to have_content "Body can't be blank"
   end
 
   scenario 'Non-authenticated user tries to create answer' do
-    visit question_path create(:question)    
+    visit question_path(create(:question))
     fill_in 'Your Answer', with: 'My answer to the question'
     click_on 'Submit'
     expect(page).to have_content 'You need to sign in or sign up before continuing'
