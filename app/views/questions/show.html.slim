@@ -16,7 +16,7 @@ p = @question.body
 - else
   p There is no answers
 
-= form_for([@question, @question.answers.build]) do |f|
+= form_for([@question, @answer ]) do |f|
   = render 'shared/error_messages', target: @answer
   = f.label :body, 'Your Answer'
   = f.text_area :body

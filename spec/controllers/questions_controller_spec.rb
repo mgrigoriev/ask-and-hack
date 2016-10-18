@@ -26,6 +26,14 @@ describe QuestionsController do
       expect(assigns(:question)).to eq(question_with_answers)
     end
 
+    it 'renders show view' do
+      expect(response).to render_template :show
+    end
+
+    it 'assigns answer for the question to @answer' do
+      expect(assigns(:answer)).to be_a_new(Answer)
+    end    
+
   end
 
   describe 'GET #new' do
