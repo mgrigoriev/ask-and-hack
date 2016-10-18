@@ -13,19 +13,19 @@ RSpec.describe User, type: :model do
     let(:answer)   { create(:answer, question: question, user: author) }
 
     context "when user is the question's author" do
-      it { expect(author.author_of?(question)).to be_truthy }
+      it { expect(author).to be_author_of(question) }
     end
 
     context "when user is the answer's author" do
-      it { expect(author.author_of?(answer)).to be_truthy }
+      it { expect(author).to be_author_of(answer) }
     end
 
     context "when user is not the question's author" do
-      it { expect(stranger.author_of?(question)).to be_falsey }
+      it { expect(stranger).to_not be_author_of(question) }
     end
 
     context "when user is not the answer's author" do
-      it { expect(stranger.author_of?(answer)).to be_falsey }
+      it { expect(stranger).to_not be_author_of(answer) }
     end
   end
 end
