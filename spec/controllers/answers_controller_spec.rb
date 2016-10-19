@@ -10,7 +10,8 @@ describe AnswersController do
       let(:params) do
         {
           answer:      attributes_for(:answer),
-          question_id: question.id
+          question_id: question.id,
+          format: :js
         }
       end
 
@@ -18,9 +19,9 @@ describe AnswersController do
         expect { post :create, params: params }.to change(question.answers.where(user: @user), :count).by(1)
       end
 
-      it 'redirects to questions#show view' do
+      it 'renders create template' do
         post :create, params: params
-        expect(response).to redirect_to question
+        expect(response).to render_template :create
       end
     end
 
@@ -28,7 +29,8 @@ describe AnswersController do
       let(:params) do
         {
           answer:      attributes_for(:invalid_answer),
-          question_id: question.id
+          question_id: question.id,
+          format: :js
         }
       end
 
@@ -36,9 +38,9 @@ describe AnswersController do
         expect { post :create, params: params }.to_not change(Answer, :count)
       end
 
-      it 'renders new view' do
+      it 'renders create template' do
         post :create, params: params
-        expect(response).to render_template 'questions/show'
+        expect(response).to render_template :create
       end
     end
   end
