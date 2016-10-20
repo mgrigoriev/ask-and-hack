@@ -18,13 +18,13 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'factory_girl_rails'
   gem 'launchy'
-  gem 'selenium-webdriver'
+  gem 'capybara'
+  gem 'capybara-webkit'
   gem 'database_cleaner'
 end
 
 group :test do
   gem 'shoulda-matchers', '~> 3.1'
-  gem 'capybara'
 end
 
 group :development do
