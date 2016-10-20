@@ -4,19 +4,15 @@ p = @question.body
 - if current_user && current_user.author_of?(@question)
   = link_to 'delete question', @question, method: :delete, data: { confirm: 'Are you sure?' }
 
-- if !@question.answers.empty?
-  ul
-    - @question.answers.each do |answer|
-      - if answer.persisted?
-        li
-          = answer.body
-          - if current_user && current_user.author_of?(answer)
-            br
-            = link_to 'delete answer', answer, method: :delete, data: { confirm: 'Are you sure?' }
-- else
-  p There is no answers
+.answers
+  - if !@question.answers.empty?
+    = render partial: 'answer', collection: @question.answers.order(:id)
+  - else
+    p There are no answers
 
-= form_for([@question, @question.answers.build]) do |f|
+.answer_errors
+
+= form_for([@question, @answer ], remote: true) do |f|
   = render 'shared/error_messages', target: @answer
   = f.label :body, 'Your Answer'
   = f.text_area :body

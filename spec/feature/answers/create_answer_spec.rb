@@ -1,6 +1,5 @@
 require 'rails_helper'
 
-# Пользователь, находясь на странице вопроса, может написать ответ на вопрос
 feature 'Create answer', %q{
   In order to help another user
   As Authenticated User
@@ -8,28 +7,46 @@ feature 'Create answer', %q{
 } do 
 
   given(:user) { create(:user) }
+  given(:question) { create(:question) }
 
-  scenario 'User creates the answer with valid data' do
+  scenario 'User creates the answer with valid data', js: true do
     sign_in(user)
-    visit question_path(create(:question))
+    visit question_path(question)
+
     fill_in 'Your Answer', with: 'My answer to the question'
     click_on 'Submit'
-    expect(page).to have_content('My answer to the question')
+
+    expect(current_path).to eq question_path(question)
+    within '.answers' do
+      expect(page).to have_content 'My answer to the question'
+    end
   end
 
-  scenario 'User creates the answer with invalid data' do
+  scenario 'User creates the answer with invalid data', js: true do
     sign_in(user)
-    visit question_path(create(:question))
+    visit question_path(question)
+    
+    fill_in 'Your Answer', with: 'foobar' 
     click_on 'Submit'
+
+    expect(current_path).to eq question_path(question)
     expect(page).to have_content 'prevented this form from being submited'
-    expect(page).to have_content "Body can't be blank"
+    expect(page).to have_content 'Body is too short'
+    within('.answers', visible: false) do
+      expect(page).to_not have_content 'foobar'
+    end
   end
 
-  scenario 'Non-authenticated user tries to create answer' do
-    visit question_path(create(:question))
+  scenario 'Non-authenticated user tries to create answer', js: true do
+    visit question_path(question)
+    
     fill_in 'Your Answer', with: 'My answer to the question'
     click_on 'Submit'
+    
+    expect(current_path).to eq question_path(question)
     expect(page).to have_content 'You need to sign in or sign up before continuing'
-  end  
-
+    within('.answers', visible: false) do
+      expect(page).to_not have_content 'My answer to the question'
+    end
+  end
 end
