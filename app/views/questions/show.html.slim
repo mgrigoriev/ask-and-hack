@@ -6,7 +6,7 @@ p = @question.body
 
 .answers
   - if !@question.answers.empty?
-    = render partial: 'answer', collection: @question.answers.order(:id)
+    = render @question.answers
   - else
     p There are no answers
 
