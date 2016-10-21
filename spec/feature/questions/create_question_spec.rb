@@ -14,7 +14,7 @@ feature 'Create question', %q{
     click_on 'Ask question'
     fill_in 'Title', with: 'My question title'
     fill_in 'Description', with: 'My question body'
-    click_on 'Submit'
+    click_on 'Post Your Question'
 
     expect(page).to have_content 'Question added successfully'
     expect(page).to have_content 'My question title'
@@ -26,7 +26,7 @@ feature 'Create question', %q{
     sign_in(user)
     visit questions_path
     click_on 'Ask question'
-    click_on 'Submit'
+    click_on 'Post Your Question'
 
     expect(page).to have_content 'prevented this form from being submited'
     expect(page).to have_content "Title can't be blank"

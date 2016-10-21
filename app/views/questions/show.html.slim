@@ -6,14 +6,15 @@ p = @question.body
 
 .answers
   - if !@question.answers.empty?
+    hr
     = render @question.answers
   - else
     p There are no answers
 
 .answer_errors
-
 = form_for([@question, @answer ], remote: true) do |f|
-  = render 'shared/error_messages', target: @answer
-  = f.label :body, 'Your Answer'
-  = f.text_area :body
-  = f.submit 'Submit'
+  .form-group
+    = f.label :body, 'Your Answer'
+    = f.text_area :body, class: 'form-control'
+  .form-group    
+    = f.submit 'Post Your Answer', class: 'btn btn-primary'
