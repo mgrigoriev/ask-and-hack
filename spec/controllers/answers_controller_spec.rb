@@ -45,14 +45,63 @@ describe AnswersController do
     end
   end
 
+  describe 'PATCH #update' do
+    login_user
+
+    context 'is author' do
+      let(:question) { @user.questions.create(title: 'My question title', body: 'My question body') }
+      let(:answer)   { question.answers.create(body: 'My answer body', user_id: @user.id) }
+      let(:params) do
+        {
+          id:          answer.id,
+          answer:      { body: 'New answer body' },
+          format: :js
+        }
+      end
+
+      it 'assings the requested answer to @answer' do
+        patch :update, params: params
+        expect(assigns(:answer)).to eq answer
+      end
+
+      it 'changes answer attributes' do
+        patch :update, params: params
+        answer.reload
+        expect(answer.body).to eq 'New answer body'
+      end
+
+      it 'renders update template' do
+        patch :update, params: params
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'is not author' do
+      let(:user)     { create(:user) } 
+      let(:question) { user.questions.create(title: 'My question title', body: 'My question body') }
+      let!(:answer)   { question.answers.create(body: 'My answer body', user_id: user.id) }
+      let(:params) do
+        {
+          id:          answer.id,
+          answer:      { body: 'New answer body' },
+          format: :js
+        }
+      end
+
+      it 'does not change answer attributes' do
+        patch :update, params: params
+        answer.reload
+        expect(answer.body).to_not eq 'New answer body'
+      end
+    end    
+  end
+
   describe 'DELETE #destroy' do
     login_user
     
     context 'is author' do
       let(:question) { @user.questions.create(title: 'My question title', body: 'My question body') }
-      let(:answer)   { question.answers.create(body: 'My answer body', user_id: @user.id) }
-
-      before { answer }
+      let!(:answer)   { question.answers.create(body: 'My answer body', user_id: @user.id) }
 
       it 'deletes answer from database' do
         expect { delete :destroy, params: { id: answer.id } }.to change(question.answers, :count).by(-1)
@@ -67,14 +116,11 @@ describe AnswersController do
     context 'is not author' do
       let(:user)     { create(:user) } 
       let(:question) { user.questions.create(title: 'My question title', body: 'My question body') }
-      let(:answer)   { question.answers.create(body: 'My answer body', user_id: user.id) }
-
-      before { answer }
+      let!(:answer)   { question.answers.create(body: 'My answer body', user_id: user.id) }
 
       it 'does not delete answer from database' do
         expect { delete :destroy, params: { id: answer.id } }.to_not change(Answer, :count)
       end
     end
   end
-
 end
