@@ -9,7 +9,7 @@ feature 'Answer editing', %q{
   given(:author)   { create(:user) }
   given(:stranger) { create(:user) }  
   given(:question) { create(:question, user: author) }
-  given!(:answer)  { create(:answer, question: question, user: author) }
+  given!(:answer)   { create(:answer, question: question, user: author) }
 
   scenario 'Unauthenticated user tries to edit answer' do
     visit question_path(question)
@@ -36,7 +36,6 @@ feature 'Answer editing', %q{
         click_on 'edit'
         fill_in 'Your Answer', with: 'edited answer'
         click_on 'Save changes'
-
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'edited answer'
         expect(page).to_not have_selector 'textarea'

@@ -9,17 +9,16 @@ feature 'Delete answer', %q{
   given(:author)   { create(:user) }
   given(:stranger) { create(:user) }  
   given(:question) { create(:question, user: author) }
-  given(:answer)   { create(:answer, question: question, user: author) }
+  given!(:answer)   { create(:answer, question: question, user: author) }
 
   scenario 'Author deletes the answer', js: true do
     sign_in(answer.user)
-    visit question_path(answer.question)
+    visit question_path(question)
     within '.answers' do
       click_link 'delete'
       page.evaluate_script('window.confirm = function() { return true; }')
-      expect(page).to_not have_content answer.body
+      expect(page).to_not have_content('My answer text')
     end
-    expect(page).to have_content 'Answer deleted successfully'
   end
 
   scenario 'Non-author tries to delete the answer' do

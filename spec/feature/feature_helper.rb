@@ -1,8 +1,11 @@
 require 'rails_helper'
 
-RSpec.configure do |config|
+#Capybara.javascript_driver     = :selenium
+Capybara.javascript_driver      = :webkit
+Capybara.default_max_wait_time  = 5
+Capybara.ignore_hidden_elements = true
 
-  Capybara.javascript_driver = :webkit
+RSpec.configure do |config|
 
   config.include FeatureMacros, type: :feature
 

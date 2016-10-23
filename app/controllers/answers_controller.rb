@@ -19,9 +19,7 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:id])
     if current_user.author_of?(@answer)
       @answer.destroy
-      flash[:notice] = 'Answer deleted successfully'
     end
-    redirect_to @answer.question
   end
 
   private

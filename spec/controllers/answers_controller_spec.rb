@@ -104,12 +104,12 @@ describe AnswersController do
       let!(:answer)   { question.answers.create(body: 'My answer body', user_id: @user.id) }
 
       it 'deletes answer from database' do
-        expect { delete :destroy, params: { id: answer.id } }.to change(question.answers, :count).by(-1)
+        expect { delete :destroy, params: { id: answer.id, format: :js } }.to change(question.answers, :count).by(-1)
       end
 
-      it 'redirects to questions#show view' do
-        delete :destroy, params: { id: answer.id }
-        expect(response).to redirect_to question
+      it 'renders delete template' do
+        delete :destroy, params: { id: answer.id, format: :js }
+        expect(response).to render_template :destroy
       end
     end
 
@@ -119,7 +119,7 @@ describe AnswersController do
       let!(:answer)   { question.answers.create(body: 'My answer body', user_id: user.id) }
 
       it 'does not delete answer from database' do
-        expect { delete :destroy, params: { id: answer.id } }.to_not change(Answer, :count)
+        expect { delete :destroy, params: { id: answer.id, format: :js } }.to_not change(Answer, :count)
       end
     end
   end
