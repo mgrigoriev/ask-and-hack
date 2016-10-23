@@ -11,22 +11,29 @@ feature 'Delete answer', %q{
   given(:question) { create(:question, user: author) }
   given(:answer)   { create(:answer, question: question, user: author) }
 
-  scenario 'Author deletes the answer' do
+  scenario 'Author deletes the answer', js: true do
     sign_in(answer.user)
     visit question_path(answer.question)
-    click_link 'delete'
+    within '.answers' do
+      click_link 'delete'
+      page.evaluate_script('window.confirm = function() { return true; }')
+      expect(page).to_not have_content answer.body
+    end
     expect(page).to have_content 'Answer deleted successfully'
-    expect(page).to_not have_content answer.body
   end
 
   scenario 'Non-author tries to delete the answer' do
     sign_in(stranger)
     visit question_path answer.question
-    expect(page).to_not have_link 'delete'
+    within '.answers' do
+      expect(page).to_not have_link 'delete'
+    end
   end
 
   scenario 'Non-authenticated user tries to delete the answer' do
     visit question_path answer.question
-    expect(page).to_not have_link 'delete'
+    within '.answers' do
+      expect(page).to_not have_link 'delete'
+    end
   end
 end

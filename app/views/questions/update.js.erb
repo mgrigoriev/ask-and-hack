@@ -1,0 +1,10 @@
+<% if @question.errors.present? %>
+  $('form#edit-question-<%= @question.id %>').append('<%= j render "shared/error_messages", target: @question %>');
+<% else %>
+  $('form#edit-question-<%= @question.id %>').hide();
+  $('.question-title-<%= @question.id %>').html('<%= j @question.title %>');  
+  $('.question-body-<%= @question.id %>').html('<%= j @question.body %>');
+  $('.question-title-<%= @question.id %>').show();
+  $('.question-body-<%= @question.id %>').show();
+  $('.question-controls-<%= @question.id %>').show();
+<% end %>

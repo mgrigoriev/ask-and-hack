@@ -1,8 +1,22 @@
-h1 = @question.title
-p = @question.body
+.question
+  h1 class="question-title-#{@question.id}" = @question.title
+  p class="question-body-#{@question.id}" = @question.body
 
-- if current_user && current_user.author_of?(@question)
-  = link_to 'delete question', @question, method: :delete, data: { confirm: 'Are you sure?' }
+  - if current_user && current_user.author_of?(@question)
+    div class="qa_controls question-controls-#{@question.id}"
+      = link_to 'edit', ' ', class: 'edit-question-link', data: { question_id: @question.id }
+      = link_to 'delete', @question, method: :delete, data: { confirm: 'Are you sure?' }
+
+    = form_for @question, remote: true, html: { id: "edit-question-#{@question.id}"} do |f|
+      .form-group
+        = f.label :title, "Title"
+        = f.text_field :title, class: 'form-control'
+      .form-group  
+        = f.label :body, "Description"
+        = f.text_area :body, class: 'form-control'
+      .form-group 
+        = f.submit 'Save changes', class: 'btn'  
+
 
 .answers
   - if !@question.answers.empty?
