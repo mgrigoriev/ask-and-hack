@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../feature_helper'
 
 feature 'Browse list of questions', %q{
   In order to find an interesting question

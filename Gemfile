@@ -4,6 +4,7 @@ gem 'rails', '~> 5.0.0', '>= 5.0.0.1'
 gem 'pg', '~> 0.18'
 gem 'puma', '~> 3.0'
 gem 'sass-rails', '~> 5.0'
+gem 'bootstrap-sass'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
@@ -18,13 +19,14 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'factory_girl_rails'
   gem 'launchy'
-  gem 'selenium-webdriver'
+  gem 'capybara'
+  gem 'capybara-webkit'
+  gem 'selenium-webdriver'  
   gem 'database_cleaner'
 end
 
 group :test do
   gem 'shoulda-matchers', '~> 3.1'
-  gem 'capybara'
 end
 
 group :development do

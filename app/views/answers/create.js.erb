@@ -1,7 +1,7 @@
-<% if @answer.errors.any? %>
-$('.answer_errors').html('<%= j render partial: "shared/error_messages", locals: {target: @answer } %>');
+<% if @answer.errors.present? %>
+  $('.answer_errors').html('<%= j render "shared/error_messages", target: @answer %>');
 <% else %>
-$('.answers').append('<%= j render partial: "questions/answer", locals: { answer: @answer } %>');
-$('.answer_errors').html('');
-$('#answer_body').val('');
+  $('.answers').append('<%= j render @answer %>');
+  $('.answer_errors').html('');
+  $('#answer_body').val(" ");
 <% end %>

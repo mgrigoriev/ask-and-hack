@@ -1,19 +1,38 @@
-h1 = @question.title
-p = @question.body
+.question
 
-- if current_user && current_user.author_of?(@question)
-  = link_to 'delete question', @question, method: :delete, data: { confirm: 'Are you sure?' }
+  div id="question-content-#{@question.id}"
+    h1 id="question-title-#{@question.id}" = @question.title
+    p id="question-body-#{@question.id}" = @question.body
+
+    - if current_user && current_user.author_of?(@question)
+      .qa_controls
+        = link_to 'edit', ' ', class: 'edit-question-link', data: { question_id: @question.id }
+        = link_to 'delete', @question, method: :delete, data: { confirm: 'Are you sure?' }
+
+  - if current_user && current_user.author_of?(@question)
+    = form_for @question, remote: true, html: { id: "edit-question-#{@question.id}"} do |f|
+      .form-group
+        = f.label :title, "Title"
+        = f.text_field :title, class: 'form-control'
+      .form-group  
+        = f.label :body, "Description"
+        = f.text_area :body, class: 'form-control'
+      .form-group 
+        = f.submit 'Save changes', class: 'btn'  
+
 
 .answers
   - if !@question.answers.empty?
-    = render partial: 'answer', collection: @question.answers.order(:id)
+    = render @question.answers
   - else
     p There are no answers
 
-.answer_errors
+hr
 
+.answer_errors
 = form_for([@question, @answer ], remote: true) do |f|
-  = render 'shared/error_messages', target: @answer
-  = f.label :body, 'Your Answer'
-  = f.text_area :body
-  = f.submit 'Submit'
+  .form-group
+    = f.label :body, 'Your Answer'
+    = f.text_area :body, class: 'form-control'
+  .form-group    
+    = f.submit 'Post Your Answer', class: 'btn btn-primary'

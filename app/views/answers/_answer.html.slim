@@ -1,0 +1,24 @@
+- if answer.persisted?
+  hr
+  .answer id="answer-#{answer.id}"
+    div id="answer-content-#{answer.id}"
+      - if answer.best
+        b best answer
+      - elsif current_user && current_user.author_of?(answer.question)
+        = link_to 'make best', make_best_answer_path(answer), method: :patch, remote: true
+        
+      div id="answer-text-#{answer.id}"
+        = answer.body
+      - if current_user && current_user.author_of?(answer)
+        br
+        .qa_controls id="answer-controls-#{answer.id}"
+          = link_to 'edit', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+          = link_to 'delete', answer, method: :delete, remote: true, data: { confirm: 'Are you sure?' }
+
+    - if current_user && current_user.author_of?(answer)
+      = form_for answer, remote: true, html: { id: "edit-answer-#{answer.id}"} do |f|
+        .form-group
+          = f.label :body, "Your Answer", for: "answer_body-#{answer.id}"
+          = f.text_area :body, class: 'form-control', id: "answer_body-#{answer.id}"
+        .form-group 
+        = f.submit 'Save changes', class: 'btn'

@@ -11,7 +11,7 @@ FactoryGirl.define do
       end
 
       after(:create) do |question, evaluator|
-        create_list(:answer, evaluator.answer_count, question: question)
+        create_list(:answer, evaluator.answer_count, question: question, best: false)
       end
     end
   end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../feature_helper'
 
 feature 'Delete answer', %q{
   In order to remove my answer from website
@@ -9,24 +9,30 @@ feature 'Delete answer', %q{
   given(:author)   { create(:user) }
   given(:stranger) { create(:user) }  
   given(:question) { create(:question, user: author) }
-  given(:answer)   { create(:answer, question: question, user: author) }
+  given!(:answer)   { create(:answer, question: question, user: author) }
 
-  scenario 'Author deletes the answer' do
+  scenario 'Author deletes the answer', js: true do
     sign_in(answer.user)
-    visit question_path(answer.question)
-    click_link 'delete answer'
-    expect(page).to have_content 'Answer deleted successfully'
-    expect(page).to_not have_content answer.body
+    visit question_path(question)
+    within '.answers' do
+      click_link 'delete'
+      page.evaluate_script('window.confirm = function() { return true; }')
+      expect(page).to_not have_content('My answer text')
+    end
   end
 
   scenario 'Non-author tries to delete the answer' do
     sign_in(stranger)
     visit question_path answer.question
-    expect(page).to_not have_link 'delete answer'
+    within '.answers' do
+      expect(page).to_not have_link 'delete'
+    end
   end
 
   scenario 'Non-authenticated user tries to delete the answer' do
     visit question_path answer.question
-    expect(page).to_not have_link 'delete answer'
+    within '.answers' do
+      expect(page).to_not have_link 'delete'
+    end
   end
 end

@@ -1,4 +1,4 @@
-require 'rails_helper'
+require_relative '../feature_helper'
 
 feature 'Create answer', %q{
   In order to help another user
@@ -14,7 +14,7 @@ feature 'Create answer', %q{
     visit question_path(question)
 
     fill_in 'Your Answer', with: 'My answer to the question'
-    click_on 'Submit'
+    click_on 'Post Your Answer'
 
     expect(current_path).to eq question_path(question)
     within '.answers' do
@@ -27,7 +27,7 @@ feature 'Create answer', %q{
     visit question_path(question)
     
     fill_in 'Your Answer', with: 'foobar' 
-    click_on 'Submit'
+    click_on 'Post Your Answer'
 
     expect(current_path).to eq question_path(question)
     expect(page).to have_content 'prevented this form from being submited'
@@ -41,7 +41,7 @@ feature 'Create answer', %q{
     visit question_path(question)
     
     fill_in 'Your Answer', with: 'My answer to the question'
-    click_on 'Submit'
+    click_on 'Post Your Answer'
     
     expect(current_path).to eq question_path(question)
     expect(page).to have_content 'You need to sign in or sign up before continuing'
