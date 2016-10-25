@@ -8,7 +8,10 @@ class Answer < ApplicationRecord
   validates :best, uniqueness: { scope: :question_id }, if: :best?
 
   def make_best
-    question.answers.where(best: true).update_all(best: false)
-    update(best: true)
+    transaction do
+      prev_best = question.answers.find_by(best: true)
+      prev_best.update!(best: false) if prev_best
+      update!(best: true)
+    end
   end
 end
