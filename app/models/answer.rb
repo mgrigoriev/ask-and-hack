@@ -9,9 +9,10 @@ class Answer < ApplicationRecord
 
   def make_best
     transaction do
-      prev_best = question.answers.find_by(best: true)
-      prev_best.update!(best: false) if prev_best
+      question.answers.where(best: true).each do |answer|
+        answer.update!(best: false)
+      end
       update!(best: true)
-    end
+    end  
   end
 end
