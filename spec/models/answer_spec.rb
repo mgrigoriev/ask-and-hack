@@ -24,7 +24,7 @@ RSpec.describe Answer, type: :model do
 
     context 'when the best answer is already defined' do
       before do
-        answer1.make_best
+        answer1.update(best: true)
         answer2.make_best
         answer1.reload
       end
