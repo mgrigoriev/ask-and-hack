@@ -1,12 +1,15 @@
 .question
-  h1 id="question-title-#{@question.id}" = @question.title
-  p id="question-body-#{@question.id}" = @question.body
+
+  div id="question-content-#{@question.id}"
+    h1 id="question-title-#{@question.id}" = @question.title
+    p id="question-body-#{@question.id}" = @question.body
+
+    - if current_user && current_user.author_of?(@question)
+      .qa_controls
+        = link_to 'edit', ' ', class: 'edit-question-link', data: { question_id: @question.id }
+        = link_to 'delete', @question, method: :delete, data: { confirm: 'Are you sure?' }
 
   - if current_user && current_user.author_of?(@question)
-    .qa_controls id="question-controls-#{@question.id}"
-      = link_to 'edit', ' ', class: 'edit-question-link', data: { question_id: @question.id }
-      = link_to 'delete', @question, method: :delete, data: { confirm: 'Are you sure?' }
-
     = form_for @question, remote: true, html: { id: "edit-question-#{@question.id}"} do |f|
       .form-group
         = f.label :title, "Title"
