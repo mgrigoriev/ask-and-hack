@@ -1,9 +1,9 @@
 .question
-  h1 class="question-title-#{@question.id}" = @question.title
-  p class="question-body-#{@question.id}" = @question.body
+  h1 id="question-title-#{@question.id}" = @question.title
+  p id="question-body-#{@question.id}" = @question.body
 
   - if current_user && current_user.author_of?(@question)
-    div class="qa_controls question-controls-#{@question.id}"
+    .qa_controls id="question-controls-#{@question.id}"
       = link_to 'edit', ' ', class: 'edit-question-link', data: { question_id: @question.id }
       = link_to 'delete', @question, method: :delete, data: { confirm: 'Are you sure?' }
 
@@ -20,10 +20,11 @@
 
 .answers
   - if !@question.answers.empty?
-    hr
     = render @question.answers
   - else
     p There are no answers
+
+hr
 
 .answer_errors
 = form_for([@question, @answer ], remote: true) do |f|

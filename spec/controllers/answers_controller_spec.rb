@@ -75,23 +75,43 @@ describe AnswersController do
         expect(response).to render_template :update
       end
     end
+  end
 
-    context 'is not author' do
+  describe 'PATCH #make_best' do
+    login_user
+
+    context "is question's author" do
+      let(:question) { @user.questions.create(title: 'My question title', body: 'My question body') }
       let(:user)     { create(:user) } 
-      let(:question) { user.questions.create(title: 'My question title', body: 'My question body') }
-      let!(:answer)   { question.answers.create(body: 'My answer body', user_id: user.id) }
-      let(:params) do
-        {
-          id:          answer.id,
-          answer:      { body: 'New answer body' },
-          format: :js
-        }
+      let!(:answer1)  { question.answers.create(body: 'My answer body 1', user: user) }
+      let!(:answer2)  { question.answers.create(body: 'My answer body 2', user: user, best: true) }
+
+      it "assings the requested answer to @answer" do
+        patch :make_best, params: { id: answer1.id, format: :js }
+        expect(assigns(:answer)).to eq answer1
       end
 
+      it "makes answer's 'best' attribute to be true" do
+        patch :make_best, params: { id: answer1.id, format: :js }
+        answer1.reload
+        answer2.reload
+        expect(answer1).to be_best
+        expect(answer2).to_not be_best
+      end
+
+      it "renders make_best template" do
+        patch :make_best, params: { id: answer1.id, format: :js }
+        expect(response).to render_template :make_best
+      end
+    end
+
+    context "is not question's author" do
+      let(:user)     { create(:user) }
+      let(:question) { user.questions.create(title: 'My question title', body: 'My question body') }      
+      let(:answer)   { question.answers.create(body: 'My answer body 1', user: user) }
+
       it 'does not change answer attributes' do
-        patch :update, params: params
-        answer.reload
-        expect(answer.body).to_not eq 'New answer body'
+        expect { patch :make_best, params: { id: answer.id, format: :js } }.to_not change(answer, :best)
       end
     end    
   end
