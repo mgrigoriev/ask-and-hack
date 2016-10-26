@@ -8,5 +8,11 @@ h1 Ask Question
   .form-group
     = f.label :body, 'Description'
     = f.text_area :body, class: 'form-control'
+  
+  = f.fields_for :attachments do |a|
+    .form-group
+      = a.label :file
+      = a.file_field :file, class: 'form-control'
+
   .form-group
     = f.submit 'Post Your Question', class: 'btn btn-primary'
