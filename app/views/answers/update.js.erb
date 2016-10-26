@@ -1,5 +1,5 @@
 <% if @answer.errors.present? %>
-  $('form#edit-answer-<%= @answer.id %>').append('<%= j render "shared/error_messages", target: @answer %>');
+  $('form#edit-answer-<%= @answer.id %>').append('<%= j render "application/error_messages", target: @answer %>');
 <% else %>
   $('form#edit-answer-<%= @answer.id %>').hide();
   $('#answer-text-<%= @answer.id %>').html('<%= j @answer.body %>');

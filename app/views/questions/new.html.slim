@@ -1,7 +1,7 @@
 h1 Ask Question
 
 = form_for @question do |f|
-  = render 'shared/error_messages', target: @question
+  = render 'application/error_messages', target: @question
   .form-group
     = f.label :title
     = f.text_field :title, class: 'form-control'
@@ -9,10 +9,8 @@ h1 Ask Question
     = f.label :body, 'Description'
     = f.text_area :body, class: 'form-control'
   
-  = f.fields_for :attachments do |a|
-    .form-group
-      = a.label :file
-      = a.file_field :file, class: 'form-control'
+  = render 'application/attachment_nested_form', f: f
 
   .form-group
+    br
     = f.submit 'Post Your Question', class: 'btn btn-primary'

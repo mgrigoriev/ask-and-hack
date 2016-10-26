@@ -10,7 +10,7 @@
       p id="answer-text-#{answer.id}"
         = answer.body
 
-      = render 'shared/attachments', target: answer
+      = render 'application/attachments', target: answer
 
       - if current_user && current_user.author_of?(answer)
         br

@@ -4,7 +4,7 @@
     h1 id="question-title-#{@question.id}" = @question.title
     p id="question-body-#{@question.id}" = @question.body
 
-    = render 'shared/attachments', target: @question
+    = render 'application/attachments', target: @question
 
     - if current_user && current_user.author_of?(@question)
       .qa_controls
