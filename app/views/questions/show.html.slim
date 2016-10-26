@@ -31,16 +31,15 @@
 
 hr
 
-.answer_errors
-= form_for([@question, @answer ], remote: true) do |f|
-  .form-group
-    = f.label :body, 'Your Answer'
-    = f.text_area :body, class: 'form-control'
-
-  = f.fields_for :attachments do |a|
+.well
+  .answer_errors
+  = form_for([@question, @answer ], remote: true) do |f|
     .form-group
-      = a.label :file
-      = a.file_field :file, class: 'form-control'    
+      = f.label :body, 'Your Answer'
+      = f.text_area :body, class: 'form-control'
 
-  .form-group
-    = f.submit 'Post Your Answer', class: 'btn btn-primary'
+    = render 'application/attachment_nested_form', f: f  
+
+    .form-group
+      br
+      = f.submit 'Post Your Answer', class: 'btn btn-primary'

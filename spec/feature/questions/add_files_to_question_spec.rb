@@ -22,7 +22,6 @@ feature 'Add files to question', %q{
     end
 
     click_on 'add file'
-    sleep 1
 
     within all('.nested-fields').last do
       attach_file 'File', "#{Rails.root}/spec/support/files_to_upload/file_2.txt"

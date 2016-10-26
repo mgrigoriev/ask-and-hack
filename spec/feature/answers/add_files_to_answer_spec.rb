@@ -16,11 +16,22 @@ feature 'Add files to answer', %q{
 
   scenario 'User adds file to answer', js: true do
     fill_in 'Your Answer', with: 'My answer to the question'
-    attach_file 'File', "#{Rails.root}/spec/feature/feature_helper.rb"
+
+    within all('.nested-fields').first do
+      attach_file 'File', "#{Rails.root}/spec/support/files_to_upload/file_1.txt"
+    end
+
+    click_on 'add file'
+
+    within all('.nested-fields').last do
+      attach_file 'File', "#{Rails.root}/spec/support/files_to_upload/file_2.txt"
+    end
+
     click_on 'Post Your Answer'
 
     within '.answers' do
-      expect(page).to have_link 'feature_helper.rb', href: '/uploads/attachment/file/1/feature_helper.rb'
+      expect(page).to have_link 'file_1.txt', href: '/uploads/attachment/file/1/file_1.txt'
+      expect(page).to have_link 'file_2.txt', href: '/uploads/attachment/file/2/file_2.txt'
     end
   end
 end
