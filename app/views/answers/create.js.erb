@@ -3,5 +3,6 @@
 <% else %>
   $('.answers').append('<%= j render @answer %>');
   $('.answer_errors').html('');
-  $('#answer_body').val(" ");
+
+  document.getElementById("new_answer").reset();
 <% end %>
