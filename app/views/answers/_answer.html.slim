@@ -7,8 +7,11 @@
       - elsif current_user && current_user.author_of?(answer.question)
         = link_to 'make best', make_best_answer_path(answer), method: :patch, remote: true
         
-      div id="answer-text-#{answer.id}"
+      p id="answer-text-#{answer.id}"
         = answer.body
+
+      = render 'shared/attachments', target: answer
+
       - if current_user && current_user.author_of?(answer)
         br
         .qa_controls id="answer-controls-#{answer.id}"
@@ -20,5 +23,4 @@
         .form-group
           = f.label :body, "Your Answer", for: "answer_body-#{answer.id}"
           = f.text_area :body, class: 'form-control', id: "answer_body-#{answer.id}"
-        .form-group 
         = f.submit 'Save changes', class: 'btn'

@@ -1,0 +1,5 @@
+- if target.attachments.present?
+  b Attachments
+  ul
+  - target.attachments.each do |a|
+    li = link_to a.file.identifier, a.file.url

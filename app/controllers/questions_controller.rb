@@ -8,6 +8,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = @question.answers.build
+    @answer.attachments.build
   end
 
   def new
@@ -23,6 +24,7 @@ class QuestionsController < ApplicationController
       flash[:notice] = "Question added successfully"
       redirect_to @question
     else
+      @question.attachments.build if !@question.attachments.present?
       render :new
     end
   end

@@ -3,11 +3,8 @@
   div id="question-content-#{@question.id}"
     h1 id="question-title-#{@question.id}" = @question.title
     p id="question-body-#{@question.id}" = @question.body
-    - if @question.attachments.present?
-      h3 Attachments
-      ul
-      - @question.attachments.each do |a|
-        li = link_to a.file.identifier, a.file.url
+
+    = render 'shared/attachments', target: @question
 
     - if current_user && current_user.author_of?(@question)
       .qa_controls
@@ -39,5 +36,11 @@ hr
   .form-group
     = f.label :body, 'Your Answer'
     = f.text_area :body, class: 'form-control'
-  .form-group    
+
+  = f.fields_for :attachments do |a|
+    .form-group
+      = a.label :file
+      = a.file_field :file, class: 'form-control'    
+
+  .form-group
     = f.submit 'Post Your Answer', class: 'btn btn-primary'
