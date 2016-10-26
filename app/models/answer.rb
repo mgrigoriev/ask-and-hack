@@ -3,7 +3,7 @@ class Answer < ApplicationRecord
 
   belongs_to :question
   belongs_to :user
-  has_many :attachments, as: :attachable
+  has_many :attachments, as: :attachable, dependent: :destroy
 
   validates :body, presence: true, length: { minimum: 10 }
   validates :best, uniqueness: { scope: :question_id }, if: :best?
