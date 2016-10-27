@@ -1,0 +1,1 @@
+This file is for testing attachments (file_2.txt)

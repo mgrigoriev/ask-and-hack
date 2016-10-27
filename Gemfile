@@ -12,6 +12,9 @@ gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'slim-rails'
 gem 'devise'
+gem 'carrierwave'
+gem 'remotipart'
+gem 'cocoon'
 
 group :development, :test do
   gem 'byebug', platform: :mri

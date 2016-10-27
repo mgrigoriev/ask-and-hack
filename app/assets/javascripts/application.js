@@ -12,7 +12,8 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require jquery
+//= require jquery.remotipart
 //= require bootstrap-sprockets
+//= require cocoon
 //= require turbolinks
 //= require_tree .
