@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :update, :destroy]
+  before_action :load_question, only: [:show, :update, :destroy, :vote_up, :vote_down]
 
   def index
     @questions = Question.all
@@ -40,6 +40,14 @@ class QuestionsController < ApplicationController
     end
     redirect_to questions_path
   end
+
+  def vote_up
+    @question.vote_up(current_user)
+  end
+
+  def vote_down
+    @question.vote_down(current_user)
+  end  
 
   private
 

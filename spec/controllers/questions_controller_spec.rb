@@ -129,7 +129,169 @@ describe QuestionsController do
       end
     end    
   end
-  
+
+  describe 'PATCH #vote_up' do
+    login_user
+
+    context "on other user's question" do
+      let(:question) { create(:question) }
+      let(:params) do
+        {
+          id: question.id #, format:   :js
+        }
+      end
+
+      it "assings the requested question to @question" do
+        patch :vote_up, params: params
+        expect(assigns(:question)).to eq question
+      end
+
+      it "increase question's rating" do
+        expect { patch :vote_up, params: params }.to change{ question.votes.sum(:value) }.by(1)
+      end
+    end
+
+    context "on his own question" do
+      let(:question) { @user.questions.create(title: 'Question title', body: 'Question body') }
+      let(:params) do
+        {
+          id: question.id #, format:   :js
+        }
+      end
+
+      it "assings the requested question to @question" do
+        patch :vote_up, params: params
+        expect(assigns(:question)).to eq question
+      end
+
+      it "does not change question's rating" do
+        expect { patch :vote_up, params: params }.to_not change{ question.votes.sum(:value) }
+      end
+    end
+
+    context "when previously voted up" do
+      let(:question) { create(:question) }
+      let(:params) do
+        {
+          id: question.id #, format:   :js
+        }
+      end
+
+      before { question.votes.create(user: @user, value: 1) }
+
+      it "assings the requested question to @question" do
+        patch :vote_up, params: params
+        expect(assigns(:question)).to eq question
+      end
+
+      it "does not change question's rating" do
+        expect { patch :vote_up, params: params }.to_not change{ question.votes.sum(:value) }
+      end
+    end
+
+    context "when previously voted down" do
+      let(:question) { create(:question) }
+      let(:params) do
+        {
+          id: question.id #, format:   :js
+        }
+      end
+
+      before { question.votes.create(user: @user, value: -1) }
+
+      it "assings the requested question to @question" do
+        patch :vote_up, params: params
+        expect(assigns(:question)).to eq question
+      end
+
+      it "increases question's rating by 2" do
+        expect { patch :vote_up, params: params }.to change{ question.votes.sum(:value) }.by(2)
+      end
+    end    
+
+  end
+
+  describe 'PATCH #vote_down' do
+    login_user
+
+    context "on other user's question" do
+      let(:question) { create(:question) }
+      let(:params) do
+        {
+          id: question.id #, format:   :js
+        }
+      end
+
+      it "assings the requested question to @question" do
+        patch :vote_up, params: params
+        expect(assigns(:question)).to eq question
+      end
+
+      it "decrease question's rating" do
+        expect { patch :vote_down, params: params }.to change{ question.votes.sum(:value) }.by(-1)
+      end
+    end
+
+    context "on his own question" do
+      let(:question) { @user.questions.create(title: 'Question title', body: 'Question body') }
+      let(:params) do
+        {
+          id: question.id #, format:   :js
+        }
+      end
+
+      it "assings the requested question to @question" do
+        patch :vote_up, params: params
+        expect(assigns(:question)).to eq question
+      end
+
+      it "does not change question's rating" do
+        expect { patch :vote_up, params: params }.to_not change{ question.votes.sum(:value) }
+      end
+    end
+
+    context "when previously voted down" do
+      let(:question) { create(:question) }
+      let(:params) do
+        {
+          id: question.id #, format:   :js
+        }
+      end
+
+      before { question.votes.create(user: @user, value: -1) }
+
+      it "assings the requested question to @question" do
+        patch :vote_up, params: params
+        expect(assigns(:question)).to eq question
+      end
+
+      it "does not change question's rating" do
+        expect { patch :vote_down, params: params }.to_not change{ question.votes.sum(:value) }
+      end
+    end
+
+    context "when previously voted up" do
+      let(:question) { create(:question) }
+      let(:params) do
+        {
+          id: question.id #, format:   :js
+        }
+      end
+
+      before { question.votes.create(user: @user, value: 1) }
+
+      it "assings the requested question to @question" do
+        patch :vote_up, params: params
+        expect(assigns(:question)).to eq question
+      end
+
+      it "decreases question's rating by 2" do
+        expect { patch :vote_down, params: params }.to change{ question.votes.sum(:value) }.by(-2)
+      end
+    end
+  end
+
+
   describe 'DELETE #destroy' do
     login_user
     

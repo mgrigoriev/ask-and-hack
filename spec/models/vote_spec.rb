@@ -8,5 +8,5 @@ RSpec.describe Vote, type: :model do
   it do
     subject.user = build(:user)
     should validate_uniqueness_of(:user_id).scoped_to([:votable_type, :votable_id])    
-  end 
+  end
 end

@@ -10,7 +10,7 @@ feature 'Vote question', %q{
   let(:question)     { create(:question) }
   let(:his_question) { create(:question, user: user) }
 
-  scenario 'User gives a positive vote to the question' do
+  scenario 'User votes up the question' do
     sign_in(user)
     visit question_path(question)
     expect('.rating-question').to have_text('0')
