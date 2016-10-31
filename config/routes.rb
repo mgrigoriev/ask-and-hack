@@ -1,9 +1,14 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :questions do
-    patch 'vote_up', on: :member
-    patch 'vote_down', on: :member   
 
+  concern :votable do
+    member do
+      patch 'vote_up'
+      patch 'vote_down'
+    end
+  end
+
+  resources :questions, concerns: [:votable] do
     resources :answers, shallow: true do
       patch 'make_best', on: :member
     end

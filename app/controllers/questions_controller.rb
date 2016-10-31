@@ -1,6 +1,8 @@
 class QuestionsController < ApplicationController
+  include Voted
+
   before_action :authenticate_user!, except: [:index, :show]
-  before_action :load_question, only: [:show, :update, :destroy, :vote_up, :vote_down]
+  before_action :load_question, only: [:show, :update, :destroy]
 
   def index
     @questions = Question.all
@@ -40,30 +42,6 @@ class QuestionsController < ApplicationController
     end
     redirect_to questions_path
   end
-
-  def vote_up
-    success, error = @question.vote_up(current_user)
-
-    respond_to do |format|
-      if success
-        format.json { render json: {rating: @question.votes.sum(:value)}.to_json }
-      else
-        format.json { render json: {error: error}.to_json, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  def vote_down
-    success, error = @question.vote_down(current_user)
-
-    respond_to do |format|
-      if success
-        format.json { render json: {rating: @question.votes.sum(:value)}.to_json }
-      else
-        format.json { render json: {error: error}.to_json, status: :unprocessable_entity }
-      end
-    end
-  end  
 
   private
 

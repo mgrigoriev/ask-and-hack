@@ -141,9 +141,9 @@ describe QuestionsController do
         }
       end
 
-      it "assings the requested question to @question" do
+      it "assings the requested question to @votable" do
         patch :vote_up, params: params
-        expect(assigns(:question)).to eq question
+        expect(assigns(:votable)).to eq question
       end
 
       it "increase question's rating" do
@@ -159,9 +159,9 @@ describe QuestionsController do
         }
       end
 
-      it "assings the requested question to @question" do
+      it "assings the requested question to @votable" do
         patch :vote_up, params: params
-        expect(assigns(:question)).to eq question
+        expect(assigns(:votable)).to eq question
       end
 
       it "does not change question's rating" do
@@ -179,9 +179,9 @@ describe QuestionsController do
 
       before { question.votes.create(user: @user, value: 1) }
 
-      it "assings the requested question to @question" do
+      it "assings the requested question to @votable" do
         patch :vote_up, params: params
-        expect(assigns(:question)).to eq question
+        expect(assigns(:votable)).to eq question
       end
 
       it "cancels previous vote up" do
@@ -199,9 +199,9 @@ describe QuestionsController do
 
       before { question.votes.create(user: @user, value: -1) }
 
-      it "assings the requested question to @question" do
+      it "assings the requested question to @votable" do
         patch :vote_up, params: params
-        expect(assigns(:question)).to eq question
+        expect(assigns(:votable)).to eq question
       end
 
       it "increases question's rating by 2" do
@@ -222,9 +222,9 @@ describe QuestionsController do
         }
       end
 
-      it "assings the requested question to @question" do
+      it "assings the requested question to @votable" do
         patch :vote_up, params: params
-        expect(assigns(:question)).to eq question
+        expect(assigns(:votable)).to eq question
       end
 
       it "decrease question's rating" do
@@ -240,9 +240,9 @@ describe QuestionsController do
         }
       end
 
-      it "assings the requested question to @question" do
+      it "assings the requested question to @votable" do
         patch :vote_up, params: params
-        expect(assigns(:question)).to eq question
+        expect(assigns(:votable)).to eq question
       end
 
       it "does not change question's rating" do
@@ -260,9 +260,9 @@ describe QuestionsController do
 
       before { question.votes.create(user: @user, value: -1) }
 
-      it "assings the requested question to @question" do
+      it "assings the requested question to @votable" do
         patch :vote_up, params: params
-        expect(assigns(:question)).to eq question
+        expect(assigns(:votable)).to eq question
       end
 
       it "cancels previous vote up" do
@@ -280,9 +280,9 @@ describe QuestionsController do
 
       before { question.votes.create(user: @user, value: 1) }
 
-      it "assings the requested question to @question" do
+      it "assings the requested question to @votable" do
         patch :vote_up, params: params
-        expect(assigns(:question)).to eq question
+        expect(assigns(:votable)).to eq question
       end
 
       it "decreases question's rating by 2" do
