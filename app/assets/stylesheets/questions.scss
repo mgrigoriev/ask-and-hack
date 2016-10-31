@@ -1,1 +1,16 @@
-.edit_question { display: none; }
+.edit_question { 
+  display: none; 
+}
+
+.q_rating { 
+  width: 100px; 
+  float: left;
+
+  big {
+    font-size: 24pt;
+  }
+}
+
+.q_main {
+  margin-left: 100px;
+}

@@ -137,7 +137,7 @@ describe QuestionsController do
       let(:question) { create(:question) }
       let(:params) do
         {
-          id: question.id #, format:   :js
+          id: question.id, format: :json
         }
       end
 
@@ -147,7 +147,7 @@ describe QuestionsController do
       end
 
       it "increase question's rating" do
-        expect { patch :vote_up, params: params }.to change{ question.votes.sum(:value) }.by(1)
+        expect { patch :vote_up, params: params }.to change{ question.votes.where('user_id=?', @user.id).sum(:value) }.by(1)
       end
     end
 
@@ -155,7 +155,7 @@ describe QuestionsController do
       let(:question) { @user.questions.create(title: 'Question title', body: 'Question body') }
       let(:params) do
         {
-          id: question.id #, format:   :js
+          id: question.id, format: :json
         }
       end
 
@@ -165,7 +165,7 @@ describe QuestionsController do
       end
 
       it "does not change question's rating" do
-        expect { patch :vote_up, params: params }.to_not change{ question.votes.sum(:value) }
+        expect { patch :vote_up, params: params }.to_not change{ question.votes.where('user_id=?', @user.id).sum(:value) }
       end
     end
 
@@ -173,7 +173,7 @@ describe QuestionsController do
       let(:question) { create(:question) }
       let(:params) do
         {
-          id: question.id #, format:   :js
+          id: question.id, format: :json
         }
       end
 
@@ -184,8 +184,8 @@ describe QuestionsController do
         expect(assigns(:question)).to eq question
       end
 
-      it "does not change question's rating" do
-        expect { patch :vote_up, params: params }.to_not change{ question.votes.sum(:value) }
+      it "cancels previous vote up" do
+        expect { patch :vote_up, params: params }.to change{ question.votes.where('user_id=?', @user.id).sum(:value) }.by(-1)
       end
     end
 
@@ -193,7 +193,7 @@ describe QuestionsController do
       let(:question) { create(:question) }
       let(:params) do
         {
-          id: question.id #, format:   :js
+          id: question.id, format: :json
         }
       end
 
@@ -205,7 +205,7 @@ describe QuestionsController do
       end
 
       it "increases question's rating by 2" do
-        expect { patch :vote_up, params: params }.to change{ question.votes.sum(:value) }.by(2)
+        expect { patch :vote_up, params: params }.to change{ question.votes.where('user_id=?', @user.id).sum(:value) }.by(2)
       end
     end    
 
@@ -218,7 +218,7 @@ describe QuestionsController do
       let(:question) { create(:question) }
       let(:params) do
         {
-          id: question.id #, format:   :js
+          id: question.id, format: :json
         }
       end
 
@@ -228,7 +228,7 @@ describe QuestionsController do
       end
 
       it "decrease question's rating" do
-        expect { patch :vote_down, params: params }.to change{ question.votes.sum(:value) }.by(-1)
+        expect { patch :vote_down, params: params }.to change{ question.votes.where('user_id=?', @user.id).sum(:value) }.by(-1)
       end
     end
 
@@ -236,7 +236,7 @@ describe QuestionsController do
       let(:question) { @user.questions.create(title: 'Question title', body: 'Question body') }
       let(:params) do
         {
-          id: question.id #, format:   :js
+          id: question.id, format: :json
         }
       end
 
@@ -246,7 +246,7 @@ describe QuestionsController do
       end
 
       it "does not change question's rating" do
-        expect { patch :vote_up, params: params }.to_not change{ question.votes.sum(:value) }
+        expect { patch :vote_up, params: params }.to_not change{ question.votes.where('user_id=?', @user.id).sum(:value) }
       end
     end
 
@@ -254,7 +254,7 @@ describe QuestionsController do
       let(:question) { create(:question) }
       let(:params) do
         {
-          id: question.id #, format:   :js
+          id: question.id, format: :json
         }
       end
 
@@ -265,8 +265,8 @@ describe QuestionsController do
         expect(assigns(:question)).to eq question
       end
 
-      it "does not change question's rating" do
-        expect { patch :vote_down, params: params }.to_not change{ question.votes.sum(:value) }
+      it "cancels previous vote up" do
+        expect { patch :vote_down, params: params }.to change{ question.votes.where('user_id=?', @user.id).sum(:value) }.by(1)
       end
     end
 
@@ -274,7 +274,7 @@ describe QuestionsController do
       let(:question) { create(:question) }
       let(:params) do
         {
-          id: question.id #, format:   :js
+          id: question.id, format: :json
         }
       end
 
@@ -286,7 +286,7 @@ describe QuestionsController do
       end
 
       it "decreases question's rating by 2" do
-        expect { patch :vote_down, params: params }.to change{ question.votes.sum(:value) }.by(-2)
+        expect { patch :vote_down, params: params }.to change{ question.votes.where('user_id=?', @user.id).sum(:value) }.by(-2)
       end
     end
   end

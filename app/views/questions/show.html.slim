@@ -1,26 +1,41 @@
 .question
+  .q_rating
+    = link_to 'vote up', vote_up_question_path(@question),
+            method: :patch, remote: true,
+            class: 'q_vote_link',
+            id: "q-vote-up-#{@question.id}",
+            data: { type: :json, target_id: @question.id }
+    br
+    .q_rating_val id="q-rating-#{@question.id}" = @question.votes.sum(:value)
+    br
+    = link_to 'vote down', vote_down_question_path(@question),
+            method: :patch, remote: true,
+            class: 'q_vote_link',
+            id: "q-vote-down-#{@question.id}",
+            data: { type: :json, target_id: @question.id }
 
-  div id="question-content-#{@question.id}"
-    h1 id="question-title-#{@question.id}" = @question.title
-    p id="question-body-#{@question.id}" = @question.body
+  .q_main
+    div id="q-content-#{@question.id}"
+      h1 id="q-title-#{@question.id}" = @question.title
+      p id="q-body-#{@question.id}" = @question.body
 
-    = render 'application/attachments', target: @question
+      = render 'application/attachments', target: @question
+
+      - if current_user && current_user.author_of?(@question)
+        .qa_controls
+          = link_to 'edit', ' ', class: 'q_edit_link', data: { question_id: @question.id }
+          = link_to 'delete', @question, method: :delete, data: { confirm: 'Are you sure?' }
 
     - if current_user && current_user.author_of?(@question)
-      .qa_controls
-        = link_to 'edit', ' ', class: 'edit-question-link', data: { question_id: @question.id }
-        = link_to 'delete', @question, method: :delete, data: { confirm: 'Are you sure?' }
-
-  - if current_user && current_user.author_of?(@question)
-    = form_for @question, remote: true, html: { id: "edit-question-#{@question.id}"} do |f|
-      .form-group
-        = f.label :title, "Title"
-        = f.text_field :title, class: 'form-control'
-      .form-group  
-        = f.label :body, "Description"
-        = f.text_area :body, class: 'form-control'
-      .form-group 
-        = f.submit 'Save changes', class: 'btn'  
+      = form_for @question, remote: true, html: { id: "q-edit-#{@question.id}"} do |f|
+        .form-group
+          = f.label :title, "Title"
+          = f.text_field :title, class: 'form-control'
+        .form-group  
+          = f.label :body, "Description"
+          = f.text_area :body, class: 'form-control'
+        .form-group 
+          = f.submit 'Save changes', class: 'btn'  
 
 
 .answers

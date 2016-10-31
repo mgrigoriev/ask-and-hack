@@ -96,9 +96,10 @@ RSpec.describe Question, type: :model do
       it { expect { question.vote_up(user) }.to_not change{ question.votes.sum(:value) }}
     end
 
+    # Повторное голосование работает как отмена голоса
     context "when previously voted up" do
       let!(:vote_prev) { create(:vote, value: 1, votable: question, user: user_other) }
-      it { expect { question.vote_up(user_other) }.to_not change{ question.votes.sum(:value) }}
+      it { expect { question.vote_up(user_other) }.to change{ question.votes.sum(:value) }.by(-1) }
     end
 
     context "when previously voted down" do
@@ -120,9 +121,10 @@ RSpec.describe Question, type: :model do
       it { expect { question.vote_down(user) }.to_not change{ question.votes.sum(:value) }}
     end
 
+    # Повторное голосование работает как отмена голоса
     context "when previously voted down" do
       let!(:vote_prev) { create(:vote, value: -1, votable: question, user: user_other) }
-      it { expect { question.vote_down(user_other) }.to_not change{ question.votes.sum(:value) }}
+      it { expect { question.vote_down(user_other) }.to change{ question.votes.sum(:value) }.by(1) }
     end
 
     context "when previously voted up" do
