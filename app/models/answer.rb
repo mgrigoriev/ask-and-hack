@@ -1,5 +1,6 @@
 class Answer < ApplicationRecord
   include Attachable
+  include Votable
 
   default_scope { order('best DESC, created_at') }
 

@@ -42,7 +42,6 @@ feature 'Create answer', %q{
     
     fill_in 'Your Answer', with: 'My answer to the question'
     click_on 'Post Your Answer'
-    
     expect(current_path).to eq question_path(question)
     expect(page).to have_content 'You need to sign in or sign up before continuing'
     within('.answers', visible: false) do

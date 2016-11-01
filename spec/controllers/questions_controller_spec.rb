@@ -1,4 +1,5 @@
 require 'rails_helper'
+require_relative 'concerns/voted_spec'
 
 describe QuestionsController do
 

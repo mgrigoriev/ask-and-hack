@@ -8,14 +8,14 @@ function ready() {
   });
 
   // Edit answer
-  $('.edit-answer-link').click(function(event) {
+  $('.a_edit_link').click(function(event) {
     event.preventDefault();    
     answer_id = $(this).data('answerId');    
-    $('#answer-content-' + answer_id).hide();
-    $('form#edit-answer-' + answer_id).show();
+    $('#a-content-' + answer_id).hide();
+    $('form#a-edit-' + answer_id).show();
   });
 
-  // Edit answer non-authenticated
+  // Create answer non-authenticated
   $('#new_answer').on("ajax:error", function(e, xhr, status, error) {
       if (xhr.status == 401) {
         $('.answer_errors').html('<div class="alert alert-danger"> \
@@ -40,7 +40,25 @@ function ready() {
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> ' + message.error + '</div>';
 
     $('#q-content-' + question_id).prepend(alert);
-  });
+  }); 
+
+  // Voting for an answer
+  $('.a_vote_link').on("ajax:success", function(e, data, status, xhr) {
+    answer_id = $(this).data('targetId');
+    data = $.parseJSON(xhr.responseText);
+    $('.vote-error').remove();    
+    $('#a-rating-' + answer_id).html(data.rating);
+
+  }).on("ajax:error", function(e, xhr, status, error) {
+    answer_id = $(this).data('targetId');
+    message = $.parseJSON(xhr.responseText);
+    $('.vote-error').remove();
+
+    alert = '<div class="alert alert-danger vote-error"> \
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> ' + message.error + '</div>';
+
+    $('#a-content-' + answer_id).prepend(alert);
+  });  
 }
 
 $(document).ready(ready);
