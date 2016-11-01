@@ -8,7 +8,7 @@
               id: "a-vote-up-#{answer.id}",
               data: { type: :json, target_id: answer.id }
       br
-      .a_rating_val id="a-rating-#{answer.id}" = answer.votes.sum(:value)
+      .a_rating_val id="a-rating-#{answer.id}" = answer.rating
       br
       = link_to 'vote down', vote_down_answer_path(answer),
               method: :patch, remote: true,

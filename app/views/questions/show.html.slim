@@ -6,7 +6,7 @@
             id: "q-vote-up-#{@question.id}",
             data: { type: :json, target_id: @question.id }
     br
-    .q_rating_val id="q-rating-#{@question.id}" = @question.votes.sum(:value)
+    .q_rating_val id="q-rating-#{@question.id}" = @question.rating
     br
     = link_to 'vote down', vote_down_question_path(@question),
             method: :patch, remote: true,

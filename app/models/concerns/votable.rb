@@ -5,6 +5,10 @@ module Votable
     has_many :votes, as: :votable
   end
 
+  def rating
+    votes.sum(:value)
+  end
+
   def vote_up(user)
     if user.author_of?(self)
       error = "You can't vote for your own post"

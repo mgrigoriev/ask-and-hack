@@ -10,7 +10,7 @@ module Voted
 
     respond_to do |format|
       if success
-        format.json { render json: {rating: @votable.votes.sum(:value)}.to_json }
+        format.json { render json: {rating: @votable.rating}.to_json }
       else
         format.json { render json: {error: error}.to_json, status: :unprocessable_entity }
       end
@@ -22,7 +22,7 @@ module Voted
 
     respond_to do |format|
       if success
-        format.json { render json: {rating: @votable.votes.sum(:value)}.to_json }
+        format.json { render json: {rating: @votable.rating}.to_json }
       else
         format.json { render json: {error: error}.to_json, status: :unprocessable_entity }
       end
