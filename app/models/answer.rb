@@ -6,7 +6,6 @@ class Answer < ApplicationRecord
 
   belongs_to :question
   belongs_to :user
-  has_many :votes, as: :votable
 
   validates :body, presence: true, length: { minimum: 10 }
   validates :best, uniqueness: { scope: :question_id }, if: :best?
