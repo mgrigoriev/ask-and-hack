@@ -8,24 +8,20 @@ module Voted
   def vote_up
     success, error = @votable.vote_up(current_user)
 
-    respond_to do |format|
-      if success
-        format.json { render json: {rating: @votable.rating}.to_json }
-      else
-        format.json { render json: {error: error}.to_json, status: :unprocessable_entity }
-      end
+    if success
+      render json: {rating: @votable.rating}.to_json
+    else
+      render json: {error: error}.to_json, status: :unprocessable_entity
     end
   end
 
   def vote_down
     success, error = @votable.vote_down(current_user)
 
-    respond_to do |format|
-      if success
-        format.json { render json: {rating: @votable.rating}.to_json }
-      else
-        format.json { render json: {error: error}.to_json, status: :unprocessable_entity }
-      end
+    if success
+      render json: {rating: @votable.rating}.to_json
+    else
+      render json: {error: error}.to_json, status: :unprocessable_entity
     end
   end
 

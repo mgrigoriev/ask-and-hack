@@ -10,29 +10,11 @@ module Votable
   end
 
   def vote_up(user)
-    if user.author_of?(self)
-      error = "You can't vote for your own post"
-    elsif has_vote_up_from?(user)
-      cancel_vote_from(user)
-    else
-      cancel_vote_from(user) if has_vote_down_from?(user)
-      votes.create(user: user, value: 1)
-    end
-
-    error ? [false, error] : true 
+    vote(user, 1)
   end
 
   def vote_down(user)
-    if user.author_of?(self)
-      error = "You can't vote for your own post"
-    elsif has_vote_down_from?(user)
-      cancel_vote_from(user)
-    else
-      cancel_vote_from(user) if has_vote_up_from?(user)
-      votes.create(user: user, value: -1)
-    end
-
-    error ? [false, error] : true 
+    vote(user, -1)
   end
 
   def cancel_vote_from(user)
@@ -45,5 +27,19 @@ module Votable
 
   def has_vote_down_from?(user)
     votes.find_by(user: user, value: -1).present?
+  end
+
+  private
+
+  def vote(user, val)
+    if user.author_of?(self)
+      error = "You can't vote for your own post"
+    else
+      need_create = (has_vote_down_from?(user) && val == -1) || (has_vote_up_from?(user) && val == 1) ? false : true
+      cancel_vote_from(user) 
+      votes.create(user: user, value: val) if need_create
+    end
+
+    error ? [false, error] : [true, '']
   end
 end

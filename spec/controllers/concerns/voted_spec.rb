@@ -19,7 +19,7 @@ shared_examples 'voted' do
       end
 
       it "increase post's rating" do
-        expect { patch :vote_up, params: params }.to change{ model.votes.where('user_id=?', @user.id).sum(:value) }.by(1)
+        expect { patch :vote_up, params: params }.to change{ model.votes.where(user: @user).sum(:value) }.by(1)
       end
     end
 
@@ -37,7 +37,7 @@ shared_examples 'voted' do
       end
 
       it "does not change post's rating" do
-        expect { patch :vote_up, params: params }.to_not change{ model.votes.where('user_id=?', @user.id).sum(:value) }
+        expect { patch :vote_up, params: params }.to_not change{ model.votes.where(user: @user).sum(:value) }
       end
     end
 
@@ -56,7 +56,7 @@ shared_examples 'voted' do
       end
 
       it "cancels previous vote up" do
-        expect { patch :vote_up, params: params }.to change{ model.votes.where('user_id=?', @user.id).sum(:value) }.by(-1)
+        expect { patch :vote_up, params: params }.to change{ model.votes.where(user: @user).sum(:value) }.by(-1)
       end
     end
 
@@ -75,7 +75,7 @@ shared_examples 'voted' do
       end
 
       it "increases post's rating by 2" do
-        expect { patch :vote_up, params: params }.to change{ model.votes.where('user_id=?', @user.id).sum(:value) }.by(2)
+        expect { patch :vote_up, params: params }.to change{ model.votes.where(user: @user).sum(:value) }.by(2)
       end
     end
   end
@@ -98,7 +98,7 @@ shared_examples 'voted' do
       end
 
       it "decrease post's rating" do
-        expect { patch :vote_down, params: params }.to change{ model.votes.where('user_id=?', @user.id).sum(:value) }.by(-1)
+        expect { patch :vote_down, params: params }.to change{ model.votes.where(user: @user).sum(:value) }.by(-1)
       end
     end
 
@@ -116,7 +116,7 @@ shared_examples 'voted' do
       end
 
       it "does not change post's rating" do
-        expect { patch :vote_up, params: params }.to_not change{ model.votes.where('user_id=?', @user.id).sum(:value) }
+        expect { patch :vote_up, params: params }.to_not change{ model.votes.where(user: @user).sum(:value) }
       end
     end
 
@@ -135,7 +135,7 @@ shared_examples 'voted' do
       end
 
       it "cancels previous vote up" do
-        expect { patch :vote_down, params: params }.to change{ model.votes.where('user_id=?', @user.id).sum(:value) }.by(1)
+        expect { patch :vote_down, params: params }.to change{ model.votes.where(user: @user).sum(:value) }.by(1)
       end
     end
 
@@ -154,7 +154,7 @@ shared_examples 'voted' do
       end
 
       it "decreases post's rating by 2" do
-        expect { patch :vote_down, params: params }.to change{ model.votes.where('user_id=?', @user.id).sum(:value) }.by(-2)
+        expect { patch :vote_down, params: params }.to change{ model.votes.where(user: @user).sum(:value) }.by(-2)
       end
     end
   end  

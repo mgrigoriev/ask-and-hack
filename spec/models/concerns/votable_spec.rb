@@ -100,17 +100,20 @@ shared_examples 'votable' do
       it { expect { model.vote_up(user) }.to_not change{ model.rating }}
     end
 
-    # Повторное голосование работает как отмена голоса
     context "when previously voted up" do
       before { create(:vote, value: 1, votable: model, user: user_other) }
 
-      it { expect { model.vote_up(user_other) }.to change{ model.rating }.by(-1) }
+      it "cancels vote up" do
+        expect { model.vote_up(user_other) }.to change{ model.rating }.by(-1)
+      end
     end
 
     context "when previously voted down" do
       before { create(:vote, value: -1, votable: model, user: user_other) }
 
-      it { expect { model.vote_up(user_other) }.to change{ model.rating }.by(2) }
+      it "cancels vote down and votes up" do
+        expect { model.vote_up(user_other) }.to change{ model.rating }.by(2)
+      end
     end
   end
 
@@ -126,17 +129,20 @@ shared_examples 'votable' do
       it { expect { model.vote_down(user) }.to_not change{ model.rating }}
     end
 
-    # Повторное голосование работает как отмена голоса
     context "when previously voted down" do
       before { create(:vote, value: -1, votable: model, user: user_other) }
 
-      it { expect { model.vote_down(user_other) }.to change{ model.rating }.by(1) }
+      it "cancels vote down" do
+        expect { model.vote_down(user_other) }.to change{ model.rating }.by(1)
+      end
     end
 
     context "when previously voted up" do
       before { create(:vote, value: 1, votable: model, user: user_other) }
 
-      it { expect { model.vote_down(user_other) }.to change{ model.rating }.by(-2) }
+      it "cancels vote up and votes down" do
+        expect { model.vote_down(user_other) }.to change{ model.rating }.by(-2)
+      end
     end
   end
 end
