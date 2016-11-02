@@ -1,6 +1,9 @@
 require 'rails_helper'
+require_relative 'concerns/voted_spec'
 
 describe QuestionsController do
+
+  it_behaves_like 'voted'
 
   describe 'GET #index' do
     let(:q1) { create(:question) } 
@@ -129,7 +132,7 @@ describe QuestionsController do
       end
     end    
   end
-  
+
   describe 'DELETE #destroy' do
     login_user
     
