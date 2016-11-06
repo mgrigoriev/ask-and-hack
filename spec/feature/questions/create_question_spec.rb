@@ -18,7 +18,7 @@ feature 'Create question', %q{
 
     expect(page).to have_content 'Question added successfully'
     expect(page).to have_content 'My question title'
-    expect(page).to have_content 'My question body'   
+    expect(page).to have_content 'My question body'
     expect(page).to have_current_path(/\/questions\/[0-9]+\/?$/)
   end
 
@@ -37,5 +37,33 @@ feature 'Create question', %q{
     click_on 'Ask question'
 
     expect(page).to have_content 'You need to sign in or sign up before continuing'
+  end
+
+  context "mulitple sessions" do
+    scenario "question appears on another user's page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit questions_path
+      end
+ 
+      Capybara.using_session('guest') do
+        visit questions_path
+      end
+
+      Capybara.using_session('user') do
+        click_on 'Ask question'
+        fill_in 'Title', with: 'My question title'
+        fill_in 'Description', with: 'My question body'
+        click_on 'Post Your Question'
+        expect(page).to have_content 'My question title'
+        expect(page).to have_content 'My question body'
+      end
+
+      Capybara.using_session('guest') do
+        # puts "Console messages"
+        # puts page.driver.console_messages
+        expect(page).to have_content 'My question title'
+      end
+    end
   end
 end

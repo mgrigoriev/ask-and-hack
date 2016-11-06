@@ -1,7 +1,6 @@
 h1 Questions
 
-- if !@questions.empty?
-  - @questions.each do |question|
-    h3 = link_to question.title, question
-- else
-  p There are no questions. 
+.questions_list
+  - if !@questions.empty?
+    - @questions.each do |question|
+      = render question

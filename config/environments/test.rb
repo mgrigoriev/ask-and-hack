@@ -39,4 +39,9 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  config.logger = Logger.new(STDOUT) if ENV["LOG"].present?
+
+  config.action_cable.disable_request_forgery_protection = true
+  config.action_cable.allowed_request_origins = ['http://localhost:3000', 'http://rspec.local:5000']
 end

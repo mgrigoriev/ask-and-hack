@@ -19,14 +19,15 @@ gem 'cocoon'
 group :development, :test do
   gem 'byebug', platform: :mri
   gem 'pry-rails'
-  gem 'pry-byebug'  
+  gem 'pry-byebug'
   gem 'rspec-rails'
   gem 'rails-controller-testing'
   gem 'factory_girl_rails'
   gem 'launchy'
   gem 'capybara'
   gem 'capybara-webkit'
-  gem 'selenium-webdriver'  
+  gem 'selenium-webdriver'
+  gem 'poltergeist'
   gem 'database_cleaner'
 end
 

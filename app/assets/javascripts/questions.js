@@ -10,7 +10,7 @@ function ready() {
   // Edit answer
   $('.a_edit_link').click(function(event) {
     event.preventDefault();    
-    answer_id = $(this).data('answerId');    
+    answer_id = $(this).data('answerId');
     $('#a-content-' + answer_id).hide();
     $('form#a-edit-' + answer_id).show();
   });
@@ -19,7 +19,7 @@ function ready() {
   $('#new_answer').on("ajax:error", function(e, xhr, status, error) {
       if (xhr.status == 401) {
         $('.answer_errors').html('<div class="alert alert-danger"> \
-          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>' 
+          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'
             + xhr.responseText + '</div>');
       }
   });  
@@ -58,10 +58,10 @@ function ready() {
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> ' + message.error + '</div>';
 
     $('#a-content-' + answer_id).prepend(alert);
-  });  
+  });
 }
 
-$(document).ready(ready);
-$(document).on('page:load', ready);
-$(document).on('page:update', ready);
+//$(document).ready(ready);
+//$(document).on('page:load', ready);
+//$(document).on('page:update', ready);
 $(document).on('turbolinks:load', ready);
