@@ -12,6 +12,10 @@ Rails.application.routes.draw do
     resources :answers, shallow: true, concerns: [:votable] do
       patch 'make_best', on: :member
     end
+
+    collection do
+      get 'test_skim'
+    end
   end
 
   resources :attachments, only: :destroy

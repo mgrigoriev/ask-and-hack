@@ -16,6 +16,14 @@ a.navbar-brand {
   }
 }
 
+.q_rating, .a_rating {
+  text-align: center;
+}
+.q_rating_val, .a_rating_val {
+  font-size: 30px;
+  color: #777;
+}
+
 /* Flash messages */
 .alert-notice {
   @include alert-variant($alert-success-bg, $alert-success-border, $alert-success-text);
@@ -63,4 +71,21 @@ a.navbar-brand {
       color: #cc0000;
     }
   }  
+}
+
+.answer {
+  margin-top: 20px;
+  padding-top: 10px;
+  border-top: 1px solid #ccc;
+
+  &::before {
+    content: "";
+    display: table;
+  }
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  zoom: 1; /* For IE 6/7 (trigger hasLayout) */
 }

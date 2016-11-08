@@ -5,9 +5,7 @@
             class: 'q_vote_link',
             id: "q-vote-up-#{@question.id}",
             data: { type: :json, target_id: @question.id }
-    br
     .q_rating_val id="q-rating-#{@question.id}" = @question.rating
-    br
     = link_to 'vote down', vote_down_question_path(@question),
             method: :patch, remote: true,
             class: 'q_vote_link',
@@ -38,7 +36,7 @@
           = f.submit 'Save changes', class: 'btn'  
 
 
-.answers
+.answers data-question-id="#{@question.id}"
   - if !@question.answers.empty?
     = render @question.answers
 

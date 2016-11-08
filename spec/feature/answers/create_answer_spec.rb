@@ -48,4 +48,31 @@ feature 'Create answer', %q{
       expect(page).to_not have_content 'My answer to the question'
     end
   end
+
+  context "mulitple sessions" do
+    scenario "answer appears on another user's page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+ 
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        fill_in 'Your Answer', with: 'My answer to the question'
+        click_on 'Post Your Answer'
+        within '.answers' do
+          expect(page).to have_content 'My answer to the question'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within '.answers' do
+          expect(page).to have_content 'My answer to the question'
+        end
+      end
+    end
+  end  
 end
