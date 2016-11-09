@@ -1,0 +1,12 @@
+comments_selector = "#comments-<%=@comment.commentable_type.underscore%>-<%=@comment.commentable_id%>"
+
+<% if @comment.errors.present? %>
+  $(comments_selector + ' .c_errors').html('<%= j render "application/error_messages", target: @comment %>');
+<% else %>
+  $(comments_selector + ' .c_errors').html('');
+  $(comments_selector + ' .new_comment')[0].reset();
+  $(comments_selector + ' .new_comment').hide();
+  $(comments_selector + ' ul').append("<li><%= @comment.body %></li>");
+
+  // New comment is appended via ActionCable
+<% end %>

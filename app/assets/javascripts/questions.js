@@ -16,6 +16,17 @@ function ready() {
     $('form#a-edit-' + answer_id).show();
   });
 
+  // Add comment (show form on click)
+  $('.c_add_link').click(function(event) {
+    event.preventDefault();
+    comment_form = '#comments-'
+                    + $(this).data('commentableType') + '-'
+                    + $(this).data('commentableId')
+                    + ' .new_comment';
+
+    $(comment_form).show();
+  });
+
   // Create answer non-authenticated
   $('#new_answer').on("ajax:error", function(e, xhr, status, error) {
       if (xhr.status == 401) {

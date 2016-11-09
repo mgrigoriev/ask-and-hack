@@ -3,7 +3,7 @@ require_relative 'concerns/voted_spec'
 
 describe AnswersController do
 
-  it_behaves_like 'voted'  
+  it_behaves_like 'voted'
 
   describe 'POST #create' do
     let(:question) { create(:question) }

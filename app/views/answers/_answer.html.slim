@@ -37,3 +37,5 @@
             = f.label :body, "Your Answer", for: "answer_body-#{answer.id}"
             = f.text_area :body, class: 'form-control', id: "answer_body-#{answer.id}"
           = f.submit 'Save changes', class: 'btn'
+
+      = render 'application/comments', target: answer

@@ -33,7 +33,9 @@
           = f.label :body, "Description"
           = f.text_area :body, class: 'form-control'
         .form-group 
-          = f.submit 'Save changes', class: 'btn'  
+          = f.submit 'Save changes', class: 'btn'
+
+    = render 'application/comments', target: @question
 
 
 .answers data-question-id="#{@question.id}"

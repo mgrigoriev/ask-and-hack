@@ -47,8 +47,8 @@ a.navbar-brand {
   }
 }
 
-/* Edit forms */
-.edit_answer, .edit_question { display: none; }
+/* Forms */
+.edit_answer, .edit_question, .new_comment { display: none; }
  
 /* Voting controls and rating */
 .q_rating, .a_rating { 
@@ -70,7 +70,7 @@ a.navbar-brand {
       margin-left: 10px;
       color: #cc0000;
     }
-  }  
+  }
 }
 
 .answer {
@@ -88,4 +88,14 @@ a.navbar-brand {
     clear: both;
   }
   zoom: 1; /* For IE 6/7 (trigger hasLayout) */
+}
+
+.comments li {
+  color: #777;
+  padding: 5px 0 5px 0;
+  border-bottom: 1px solid #ddd;
+
+  &:first-child {
+    border-top: 1px solid #ddd;
+  }
 }

@@ -5,18 +5,19 @@ RSpec.describe Answer, type: :model do
   it_behaves_like 'votable'
 
   it { should belong_to(:question) }
-  it { should belong_to(:user) }  
+  it { should belong_to(:user) }
   it { should have_many(:attachments).dependent(:destroy) }
-  it { should have_many(:votes) }  
+  it { should have_many(:comments).dependent(:destroy) }
+  it { should have_many(:votes) }
 
   it { should validate_presence_of :body }
   it { should validate_length_of(:body).is_at_least(10) }
   it { should validate_uniqueness_of(:best).scoped_to(:question_id) }
 
   describe '#make_best' do
-    let(:author)    { create(:user) }    
+    let(:author)    { create(:user) }
     let(:question)  { create(:question, user: author) }
-    let!(:answer1)  { create(:answer, question: question) } 
+    let!(:answer1)  { create(:answer, question: question) }
     let!(:answer2)  { create(:answer, question: question) }
 
     context 'when the best answer is not defined' do
@@ -35,7 +36,7 @@ RSpec.describe Answer, type: :model do
       end
 
       it { expect(answer2).to be_best }
-      it { expect(answer1).to_not be_best }      
+      it { expect(answer1).to_not be_best }
     end
   end
 end
