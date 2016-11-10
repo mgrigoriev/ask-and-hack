@@ -6,7 +6,6 @@ comments_selector = "#comments-<%=@comment.commentable_type.underscore%>-<%=@com
   $(comments_selector + ' .c_errors').html('');
   $(comments_selector + ' .new_comment')[0].reset();
   $(comments_selector + ' .new_comment').hide();
-  $(comments_selector + ' ul').append("<li><%= @comment.body %></li>");
 
   // New comment is appended via ActionCable
 <% end %>

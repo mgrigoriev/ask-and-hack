@@ -17,7 +17,7 @@ function ready() {
   });
 
   // Add comment (show form on click)
-  $('.c_add_link').click(function(event) {
+  $('body').on('click', '.c_add_link', function(event) {
     event.preventDefault();
     comment_form = '#comments-'
                     + $(this).data('commentableType') + '-'
@@ -73,4 +73,4 @@ function ready() {
   });
 }
 
-$(document).on('turbolinks:load', ready);
+$(document).on('ready', ready);

@@ -1,4 +1,3 @@
-hr
 .answer id="answer-#{@answer.id}"
 
   .a_rating
@@ -42,3 +41,17 @@ hr
           label for="answer_body-#{@answer.id}" Your Answer
           textarea.form-control id="answer_body-#{@answer.id}" name="answer[body]" = @answer.body
         input.btn type="submit" name="commit" value="Save changes" data-disable-with="Save changes"
+
+    .comments id="comments-answer-#{@answer.id}"
+      ul.list-unstyled
+      - if @current_user_id
+        a.c_add_link href="#" data-commentable-type="answer" data-commentable-id="#{@answer.id}" add a comment
+
+        form.new_comment id="new_comment" action="/answers/#{@answer.id}/comments" accept-charset="UTF-8" data-remote="true" method="post"
+          input name="utf8" type="hidden" value="✓"
+          .c_errors
+          .form-group
+            label for="comment_body" Your comment
+            textarea.form-control name="comment[body]" id="comment_body"
+          .form-group
+            input.btn type="submit" name="commit" value="Post Comment" data-disable-with="Post Comment"

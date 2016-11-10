@@ -8,7 +8,6 @@ gem 'bootstrap-sass'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.2'
 gem 'jquery-rails'
-gem 'turbolinks', '~> 5'
 gem 'jbuilder', '~> 2.5'
 gem 'slim-rails'
 gem 'devise'
@@ -17,6 +16,7 @@ gem 'remotipart'
 gem 'cocoon'
 gem 'gon'
 gem 'skim'
+gem 'sprockets', '3.6.3'
 
 group :development, :test do
   gem 'byebug', platform: :mri
@@ -28,8 +28,6 @@ group :development, :test do
   gem 'launchy'
   gem 'capybara'
   gem 'capybara-webkit'
-  gem 'selenium-webdriver'
-  gem 'poltergeist'
   gem 'database_cleaner'
 end
 

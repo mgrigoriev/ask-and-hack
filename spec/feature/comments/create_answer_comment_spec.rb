@@ -17,7 +17,7 @@ feature 'Add comment to answer', %q{
     expect(page).to_not have_link 'add a comment'
   end
 
-  describe 'Authenticated user' do
+  context 'Authenticated user' do
     background do
       sign_in user
       visit question_path(question)
@@ -38,6 +38,34 @@ feature 'Add comment to answer', %q{
       click_on 'Post Comment'
       within comments_selector do
         expect(page).not_to have_content 'My comment'
+      end
+    end
+  end
+
+  context "mulitple sessions" do
+    scenario "comment appears on another user's page", js: true do
+      Capybara.using_session('user') do
+        sign_in(user)
+        visit question_path(question)
+      end
+ 
+      Capybara.using_session('guest') do
+        visit question_path(question)
+      end
+
+      Capybara.using_session('user') do
+        within comments_selector do
+          click_link 'add a comment'
+          fill_in 'Your comment', with: 'My comment'
+          click_on 'Post Comment'
+          expect(page).not_to have_content 'My comment'
+        end
+      end
+
+      Capybara.using_session('guest') do
+        within comments_selector do
+          expect(page).to have_content 'My comment'
+        end
       end
     end
   end

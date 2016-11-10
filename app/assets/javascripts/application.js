@@ -17,6 +17,6 @@
 //= require skim
 //= require bootstrap-sprockets
 //= require cocoon
-//= require turbolinks
 //= require questions
 //= require ./templates/answer
+//= require ./templates/comment
