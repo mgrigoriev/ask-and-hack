@@ -26,14 +26,14 @@ feature 'Create answer', %q{
     sign_in(user)
     visit question_path(question)
     
-    fill_in 'Your Answer', with: 'foobar' 
+    fill_in 'Your Answer', with: 'foo' 
     click_on 'Post Your Answer'
 
     expect(current_path).to eq question_path(question)
     expect(page).to have_content 'prevented this form from being submited'
     expect(page).to have_content 'Body is too short'
     within('.answers', visible: false) do
-      expect(page).to_not have_content 'foobar'
+      expect(page).to_not have_content 'foo'
     end
   end
 

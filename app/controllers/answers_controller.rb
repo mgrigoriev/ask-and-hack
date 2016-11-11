@@ -43,19 +43,13 @@ class AnswersController < ApplicationController
   def publish_answer
     return if @answer.errors.any?
 
-    attachments = []
-    @answer.attachments.each do |a|
-      attach = {}
-      attach[:id] = a.id
-      attach[:file_url] = a.file.url
-      attach[:file_name] = a.file.identifier
-      attachments << attach
-    end
+    files = []
+    @answer.attachments.each { |a| files << { id: a.id, file_url: a.file.url, file_name: a.file.identifier } }
 
     ActionCable.server.broadcast(
       "answers_#{params[:question_id]}",
       answer:             @answer,
-      answer_attachments: attachments,
+      answer_attachments: files,
       answer_rating:      @answer.rating,
       question_user_id:   @answer.question.user_id
     )

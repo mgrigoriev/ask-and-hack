@@ -11,7 +11,7 @@ RSpec.describe Answer, type: :model do
   it { should have_many(:votes) }
 
   it { should validate_presence_of :body }
-  it { should validate_length_of(:body).is_at_least(10) }
+  it { should validate_length_of(:body).is_at_least(5) }
   it { should validate_uniqueness_of(:best).scoped_to(:question_id) }
 
   describe '#make_best' do

@@ -1,6 +1,6 @@
 h1 Questions
 
 .questions_list
-  - if !@questions.empty?
+  - if @questions.present?
     - @questions.each do |question|
       = render question
