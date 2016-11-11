@@ -1,9 +1,9 @@
 - if target && target.errors.any?
   .panel.panel-danger
     .panel-heading
-      = pluralize(target.errors.count, "error") 
-      |  prevented this form from being submited:   
+      = pluralize(target.errors.count, "error")
+      |  prevented this form from being submited:
     .panel-body
       ul
         - target.errors.full_messages.each do |msg|
-          li = msg  
+          li = msg

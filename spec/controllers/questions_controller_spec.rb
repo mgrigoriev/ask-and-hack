@@ -1,5 +1,5 @@
 require 'rails_helper'
-require_relative 'concerns/voted_spec'
+require_relative 'concerns/voted'
 
 describe QuestionsController do
 
@@ -22,7 +22,7 @@ describe QuestionsController do
 
   describe 'GET #show' do
     let(:question_with_answers) { create(:question_with_answers) }
-    
+
     before { get :show, params: {id: question_with_answers.id} } 
 
     it 'assigns question to @question' do

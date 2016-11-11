@@ -1,8 +1,8 @@
 <% if @answer.errors.present? %>
   $('.answer_errors').html('<%= j render "application/error_messages", target: @answer %>');
 <% else %>
-  $('.answers').append('<%= j render @answer %>');
   $('.answer_errors').html('');
-
   document.getElementById("new_answer").reset();
+
+// New answer is appended via ActionCable
 <% end %>

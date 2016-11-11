@@ -1,5 +1,4 @@
 - if answer.persisted?
-  hr
   .answer id="answer-#{answer.id}"
     .a_rating
       = link_to 'vote up', vote_up_answer_path(answer),
@@ -7,9 +6,7 @@
               class: 'a_vote_link',
               id: "a-vote-up-#{answer.id}",
               data: { type: :json, target_id: answer.id }
-      br
       .a_rating_val id="a-rating-#{answer.id}" = answer.rating
-      br
       = link_to 'vote down', vote_down_answer_path(answer),
               method: :patch, remote: true,
               class: 'a_vote_link',
@@ -20,17 +17,17 @@
       div id="a-content-#{answer.id}"
         - if answer.best
           b best answer
-        - elsif current_user && current_user.author_of?(answer.question)
-          = link_to 'make best', make_best_answer_path(answer), method: :patch, remote: true
           
         p id="a-text-#{answer.id}"
           = answer.body
 
         = render 'application/attachments', target: answer
 
-        - if current_user && current_user.author_of?(answer)
-          br
-          .qa_controls id="a-controls-#{answer.id}"
+        .qa_controls id="a-controls-#{answer.id}"
+          - if (current_user && current_user.author_of?(answer.question)) && !answer.best
+            = link_to 'make best', make_best_answer_path(answer), method: :patch, remote: true
+
+          - if current_user && current_user.author_of?(answer)
             = link_to 'edit', '#', class: 'a_edit_link', data: { answer_id: answer.id }
             = link_to 'delete', answer, method: :delete, remote: true, data: { confirm: 'Are you sure?' }
 
@@ -40,3 +37,5 @@
             = f.label :body, "Your Answer", for: "answer_body-#{answer.id}"
             = f.text_area :body, class: 'form-control', id: "answer_body-#{answer.id}"
           = f.submit 'Save changes', class: 'btn'
+
+      = render 'application/comments', target: answer

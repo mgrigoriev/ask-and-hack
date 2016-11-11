@@ -5,9 +5,7 @@
             class: 'q_vote_link',
             id: "q-vote-up-#{@question.id}",
             data: { type: :json, target_id: @question.id }
-    br
     .q_rating_val id="q-rating-#{@question.id}" = @question.rating
-    br
     = link_to 'vote down', vote_down_question_path(@question),
             method: :patch, remote: true,
             class: 'q_vote_link',
@@ -35,14 +33,14 @@
           = f.label :body, "Description"
           = f.text_area :body, class: 'form-control'
         .form-group 
-          = f.submit 'Save changes', class: 'btn'  
+          = f.submit 'Save changes', class: 'btn'
+
+    = render 'application/comments', target: @question
 
 
-.answers
+.answers data-question-id="#{@question.id}"
   - if !@question.answers.empty?
     = render @question.answers
-  - else
-    p There are no answers
 
 br
 br

@@ -1,0 +1,16 @@
+.comments id="comments-#{target.class.to_s.underscore}-#{target.id}"
+  ul.list-unstyled
+    - if target.comments.present?
+      - target.comments.each do |c|
+        li.comment id="comment-#{c.id}"
+          = c.body
+  - if current_user
+    = link_to 'add a comment', '', class: 'c_add_link', data: { commentable_type: target.class.to_s.underscore, commentable_id: target.id}
+
+  = form_for [target, target.comments.build], remote: true do |f|
+    .c_errors
+    .form-group
+      = f.label :body, "Your comment"
+      = f.text_area :body, class: 'form-control'
+    .form-group
+      = f.submit 'Post Comment', class: 'btn'

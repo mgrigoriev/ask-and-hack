@@ -8,13 +8,24 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :questions, concerns: [:votable] do
-    resources :answers, shallow: true, concerns: [:votable] do
+  concern :commentable do
+    resources :comments, shallow: true, only: :create
+  end
+
+  resources :questions, concerns: [:votable, :commentable] do
+    resources :answers, shallow: true, concerns: [:votable, :commentable] do
       patch 'make_best', on: :member
+    end
+
+    collection do
+      get 'test_skim'
     end
   end
 
   resources :attachments, only: :destroy
 
   root to: 'questions#index'
+
+  mount ActionCable.server => '/cable'
+  
 end

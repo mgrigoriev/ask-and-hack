@@ -1,0 +1,57 @@
+.answer id="answer-#{@answer.id}"
+
+  .a_rating
+    a.a_vote_link href="/answers/#{@answer.id}/vote_up" id="a-vote-up-#{@answer.id}" data-type="json" data-target-id="#{@answer.id}" data-remote="true" rel="nofollow" data-method="patch" vote up
+
+    .a_rating_val id="a-rating-#{@answer.id}" = @answer_rating
+
+    a.a_vote_link href="/answers/#{@answer.id}/vote_down" id="a-vote-down-#{@answer.id}" data-type="json" data-target-id="#{@answer.id}" data-remote="true" rel="nofollow" data-method="patch" vote down
+
+  .a_main
+    div id="a-content-#{@answer.id}"
+      - if @answer.best
+        b best answer
+
+      p id="a-text-#{@answer.id}"
+        = @answer.body
+
+      - if @answer_attachments.length > 0
+        .attachments
+          b Attachments
+          ul.list-unstyled
+            - for a in @answer_attachments
+              li id="attachment-#{a.id}"
+                a href="#{a.file_url}" = a.file_name
+                - if @current_user_id == @answer.user_id
+                  a.delete_attachment href="/attachments/#{a.id}" data-confirm="Are you sure?" data-remote="true" rel="nofollow" data-method="delete" [x]
+
+      .qa_controls id="a-controls-#{@answer.id}"
+        - if @current_user_id == @question_user_id
+          a href="/answers/#{@answer.id}/make_best" data-remote="true" rel="nofollow" data-method="patch" make best
+
+        - if (@current_user_id == @answer.user_id) && !@answer.best
+          a.a_edit_link href="#" data-answer-id="#{@answer.id}" edit
+          a href="/answers/#{@answer.id}" data-confirm="Are you sure?" data-remote="true" rel="nofollow" data-method="delete" delete
+      
+    - if @current_user_id == @answer.user_id
+      form.edit_answer action="/answers/#{@answer.id}" id="a-edit-#{@answer.id}"  accept-charset="UTF-8" data-remote="true" method="post"
+        input name="utf8" type="hidden" value="✓"
+        input type="hidden" name="_method" value="patch"
+        .form-group
+          label for="answer_body-#{@answer.id}" Your Answer
+          textarea.form-control id="answer_body-#{@answer.id}" name="answer[body]" = @answer.body
+        input.btn type="submit" name="commit" value="Save changes" data-disable-with="Save changes"
+
+    .comments id="comments-answer-#{@answer.id}"
+      ul.list-unstyled
+      - if @current_user_id
+        a.c_add_link href="#" data-commentable-type="answer" data-commentable-id="#{@answer.id}" add a comment
+
+        form.new_comment id="new_comment" action="/answers/#{@answer.id}/comments" accept-charset="UTF-8" data-remote="true" method="post"
+          input name="utf8" type="hidden" value="✓"
+          .c_errors
+          .form-group
+            label for="comment_body" Your comment
+            textarea.form-control name="comment[body]" id="comment_body"
+          .form-group
+            input.btn type="submit" name="commit" value="Post Comment" data-disable-with="Post Comment"
