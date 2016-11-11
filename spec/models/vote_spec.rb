@@ -7,6 +7,6 @@ RSpec.describe Vote, type: :model do
   it { should validate_inclusion_of(:value).in_array [-1, 1] }
   it do
     subject.user = build(:user)
-    should validate_uniqueness_of(:user_id).scoped_to([:votable_type, :votable_id])    
+    should validate_uniqueness_of(:user_id).scoped_to([:votable_type, :votable_id])
   end
 end

@@ -1,4 +1,6 @@
 class Answer < ApplicationRecord
+  after_create_commit :broadcast
+
   include Attachable
   include Votable
   include Commentable
@@ -17,6 +19,22 @@ class Answer < ApplicationRecord
         answer.update!(best: false)
       end
       update!(best: true)
-    end  
+    end
   end
+
+  private
+    def broadcast
+      return if errors.any?
+
+      files = []
+      attachments.each { |a| files << { id: a.id, file_url: a.file.url, file_name: a.file.identifier } }
+
+      ActionCable.server.broadcast(
+        "answers_#{question_id}",
+        answer:             self,
+        answer_attachments: files,
+        answer_rating:      rating,
+        question_user_id:   question.user_id
+      )
+    end
 end
