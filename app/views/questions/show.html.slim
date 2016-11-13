@@ -52,7 +52,7 @@ br
       = f.label :body, 'Your Answer'
       = f.text_area :body, class: 'form-control'
 
-    = render 'application/attachment_nested_form', f: f  
+    = render 'application/attachment_nested_form', f: f, attachable: @answer
 
     .form-group
       br

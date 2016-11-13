@@ -3,45 +3,34 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
   before_action :load_question, only: [:show, :update, :destroy]
+  before_action :build_answer, only: :show
+  before_action :set_gon_current_user, only: :show
+
+  respond_to :js, only: :update
 
   def index
-    @questions = Question.all
+    respond_with(@questions = Question.all)
   end
 
   def show
-    @answer = @question.answers.build
-    @answer.attachments.build
-    gon.current_user_id = current_user ? current_user.id : 0
+    respond_with(@question, @answer)
   end
 
   def new
-    @question = Question.new
-    @question.attachments.build
+    respond_with(@question = Question.new)
   end
 
   def create
-    @question = Question.new(question_params)
-    @question.user = current_user
-
-    if @question.save
-      flash[:notice] = "Question added successfully"
-      redirect_to @question
-    else
-      @question.attachments.build if !@question.attachments.present?
-      render :new
-    end
+    respond_with(@question = Question.create(question_params.merge(user: current_user)))
   end
 
   def update
     @question.update(question_params) if current_user.author_of?(@question)
+    respond_with(@question)
   end
 
   def destroy
-    if current_user.author_of?(@question)
-      flash[:notice] = "Question deleted successfully"
-      @question.destroy
-    end
-    redirect_to questions_path
+    respond_with(@question.destroy) if current_user.author_of?(@question)
   end
 
   private
@@ -52,5 +41,13 @@ class QuestionsController < ApplicationController
 
   def load_question
     @question = Question.find(params[:id])
+  end
+
+  def build_answer
+    @answer = @question.answers.build
+  end
+
+  def set_gon_current_user
+    gon.current_user_id = current_user ? current_user.id : 0
   end
 end
