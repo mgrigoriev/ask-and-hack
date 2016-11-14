@@ -18,6 +18,8 @@ gem 'gon'
 gem 'skim'
 gem 'sprockets', '3.6.3'
 gem 'responders', '~> 2.0'
+gem 'omniauth'
+gem 'omniauth-facebook'
 
 group :development, :test do
   gem 'byebug', platform: :mri
