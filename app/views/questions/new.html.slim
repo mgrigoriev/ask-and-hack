@@ -9,7 +9,7 @@ h1 Ask Question
     = f.label :body, 'Description'
     = f.text_area :body, class: 'form-control'
   
-  = render 'application/attachment_nested_form', f: f
+  = render 'application/attachment_nested_form', f: f, attachable: @question
 
   .form-group
     br

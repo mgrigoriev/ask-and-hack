@@ -3,31 +3,26 @@ class AnswersController < ApplicationController
 
   before_action :authenticate_user!
   before_action :load_answer, only: [:update, :destroy, :make_best]
-  after_action :publish_answer, only: [:create]
-  
+  before_action :load_question, only: :create
+
+  respond_to :js
+
   def create
-    @question = Question.find(params[:question_id])
-    @answer = @question.answers.build(answer_params)
-    @answer.user = current_user
-    @answer.save
+    respond_with(@answer = @question.answers.create(answer_params.merge(user: current_user)))
   end
 
   def update
-    if current_user.author_of?(@answer)
-      @answer.update(answer_params)
-    end
+    @answer.update(answer_params) if current_user.author_of?(@answer)
+    respond_with(@answer)
   end
 
   def destroy
-    if current_user.author_of?(@answer)
-      @answer.destroy
-    end
+    respond_with(@answer.destroy) if current_user.author_of?(@answer)
   end
 
   def make_best
-    if current_user.author_of?(@answer.question)
-      @answer.make_best
-    end
+    @answer.make_best if current_user.author_of?(@answer.question)
+    respond_with(@answer)
   end
 
   private
@@ -40,18 +35,7 @@ class AnswersController < ApplicationController
     @answer = Answer.find(params[:id])
   end
 
-  def publish_answer
-    return if @answer.errors.any?
-
-    files = []
-    @answer.attachments.each { |a| files << { id: a.id, file_url: a.file.url, file_name: a.file.identifier } }
-
-    ActionCable.server.broadcast(
-      "answers_#{params[:question_id]}",
-      answer:             @answer,
-      answer_attachments: files,
-      answer_rating:      @answer.rating,
-      question_user_id:   @answer.question.user_id
-    )
+  def load_question
+    @question = Question.find(params[:question_id])
   end
 end
