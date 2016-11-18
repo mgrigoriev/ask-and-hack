@@ -147,6 +147,32 @@ RSpec.describe User, type: :model do
         end
       end
     end
+
+    context 'when auth hash is not valid' do
+      context 'when oauth provider is blank' do
+        let(:auth) { OmniAuth::AuthHash.new(provider: '', uid: '123456') }
+
+        it 'returns nil' do
+          expect(User.find_for_oauth(auth)).to be_nil
+        end
+      end
+
+      context 'when oauth uid is blank' do
+        let(:auth) { OmniAuth::AuthHash.new(provider: 'facebook', uid: '') }
+
+        it 'returns nil' do
+          expect(User.find_for_oauth(auth)).to be_nil
+        end
+      end
+
+      context 'when oauth hash is nil' do
+        let(:auth) { nil }
+
+        it 'returns nil' do
+          expect(User.find_for_oauth(auth)).to be_nil
+        end
+      end
+    end
   end
 
   describe '#create_authorization' do
