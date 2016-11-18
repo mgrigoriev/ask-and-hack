@@ -1,5 +1,5 @@
 module OmniauthMacros
-  def mock_auth_hash
+  def mock_auth_facebook
     OmniAuth.config.mock_auth[:facebook] = OmniAuth::AuthHash.new({
       provider: 'facebook',
       uid: '111',
@@ -9,7 +9,9 @@ module OmniauthMacros
         image: 'http://graph.facebook.com/v2.6/10157669802260123/picture'
       }
     })
+  end
 
+  def mock_auth_twitter
     OmniAuth.config.mock_auth[:twitter] = OmniAuth::AuthHash.new({
       provider: 'twitter',
       uid: '222',
@@ -20,8 +22,11 @@ module OmniauthMacros
     })
   end
 
-  def mock_auth_invalid_hash
+  def mock_auth_facebook_invalid
     OmniAuth.config.mock_auth[:facebook] = :credentials_are_invalid
+  end
+
+  def mock_auth_twitter_invalid
     OmniAuth.config.mock_auth[:twitter]  = :credentials_are_invalid
   end
 end

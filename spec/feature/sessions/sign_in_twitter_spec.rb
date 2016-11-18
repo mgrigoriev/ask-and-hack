@@ -9,7 +9,7 @@ feature 'Signing in using Twitter account', %q{
   background { visit new_user_session_path }
 
   scenario "Twitter user tries to sign in, log out and sign in again" do
-    mock_auth_hash
+    mock_auth_twitter
     clear_emails
     click_link 'Sign in with Twitter'
 
@@ -30,7 +30,7 @@ feature 'Signing in using Twitter account', %q{
   end
 
   scenario "Twitter user tries to sign in with invalid credentials" do
-    mock_auth_invalid_hash
+    mock_auth_twitter_invalid
     click_link 'Sign in with Twitter'
     expect(page).to have_content('Could not authenticate you from Twitter because "Credentials are invalid"')
   end

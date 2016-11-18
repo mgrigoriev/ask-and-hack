@@ -14,7 +14,7 @@ class User < ApplicationRecord
   end
 
   def create_authorization(auth)
-    authorizations.create(provider: auth.provider, uid: auth.uid)
+    authorizations.create!(provider: auth.provider, uid: auth.uid)
   end
 
   def last_authorization_twitter?
