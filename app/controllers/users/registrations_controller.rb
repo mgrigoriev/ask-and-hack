@@ -6,15 +6,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   end
 
   def update_email
-    @user = User.find(session['new_user_id'])
-    
-    if @user
-      if @user.update(email: params['email'])
-        redirect_to questions_path
-        set_flash_message(:notice, :send_instructions) if is_navigational_format?
-      else
-        render 'edit_email'
-      end
+    @user = User.find(session['devise.new_user_id'])
+
+    if @user && @user.update(email: params['email'])
+      redirect_to questions_path
+      set_flash_message(:notice, :send_instructions) if is_navigational_format?
+    else
+      render 'edit_email'
     end
   end
 end

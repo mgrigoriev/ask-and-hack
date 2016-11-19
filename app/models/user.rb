@@ -35,7 +35,7 @@ class User < ApplicationRecord
       confirmation_required = true
     end
 
-    if !user
+    unless user
       password = random_password
       user = User.create!(email: email, password: password, password_confirmation: password)
       user.update!(confirmed_at: nil) if confirmation_required
