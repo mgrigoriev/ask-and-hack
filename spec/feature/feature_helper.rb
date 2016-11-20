@@ -8,6 +8,9 @@ RSpec.configure do |config|
   Capybara.ignore_hidden_elements = true
   Capybara.server_port            = 5000
 
+  OmniAuth.config.test_mode = true
+
+  config.include OmniauthMacros
   config.include FeatureMacros, type: :feature
 
   config.use_transactional_fixtures = false
@@ -30,5 +33,5 @@ RSpec.configure do |config|
 
   config.after(:each) do
     DatabaseCleaner.clean
-  end  
+  end
 end

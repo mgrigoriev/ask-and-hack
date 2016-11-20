@@ -1,0 +1,9 @@
+h2 Please, enter your e-mail to complite registration process:
+
+= render 'application/error_messages', target: @user
+= form_tag(update_signup_email_path) do
+  .row
+    .col-xs-8.col-sm-6
+      = email_field_tag :email, nil, class: 'form-control'
+    .col-xs-4.col-sm-6
+      = submit_tag 'Save E-mail', class: 'btn btn-primary'

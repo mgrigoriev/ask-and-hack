@@ -1,5 +1,15 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users,
+              controllers: {
+                omniauth_callbacks: 'users/omniauth_callbacks',
+                registrations:      'users/registrations',
+                confirmations:      'users/confirmations'
+              }
+
+  as :user do
+    get 'signup_email', to: 'users/registrations#edit_email', as: :edit_signup_email
+    post 'signup_email', to: 'users/registrations#update_email', as: :update_signup_email
+  end
 
   concern :votable do
     member do
@@ -23,5 +33,4 @@ Rails.application.routes.draw do
   root to: 'questions#index'
 
   mount ActionCable.server => '/cable'
-  
 end

@@ -18,6 +18,9 @@ gem 'gon'
 gem 'skim'
 gem 'sprockets', '3.6.3'
 gem 'responders', '~> 2.0'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
 
 group :development, :test do
   gem 'byebug', platform: :mri
@@ -29,6 +32,7 @@ group :development, :test do
   gem 'launchy'
   gem 'capybara'
   gem 'capybara-webkit'
+  gem 'capybara-email'
   gem 'database_cleaner'
 end
 
@@ -41,6 +45,7 @@ group :development do
   gem 'listen', '~> 3.0.5'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'letter_opener'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
