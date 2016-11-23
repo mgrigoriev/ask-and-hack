@@ -78,26 +78,22 @@ shared_examples 'votable' do
         model.cancel_vote_from(user)
       end
 
-      it { expect(model.votes.find_by(user: user)).to be_nil }    
+      it { expect(model.votes.find_by(user: user)).to be_nil }
     end
 
     context 'when vote doesn\'t exist' do
       before { model.cancel_vote_from(user) }
 
-      it { expect(model.votes.find_by(user: user)).to be_nil }    
+      it { expect(model.votes.find_by(user: user)).to be_nil }
     end
   end
 
   describe '#vote_up' do
     let(:model)      { create(described_class.to_s.underscore.to_sym, user: user) }
-    let(:user_other) { create(:user) }    
-    
-    context "on other user's post" do
-      it { expect { model.vote_up(user_other) }.to change{ model.rating }.by(1) }
-    end
+    let(:user_other) { create(:user) }
 
-    context "on his own post" do
-      it { expect { model.vote_up(user) }.to_not change{ model.rating }}
+    context "when votes at first time" do
+      it { expect { model.vote_up(user_other) }.to change{ model.rating }.by(1) }
     end
 
     context "when previously voted up" do
@@ -120,13 +116,9 @@ shared_examples 'votable' do
   describe '#vote_down' do
     let(:model)      { create(described_class.to_s.underscore.to_sym, user: user) }
     let(:user_other) { create(:user) }
-    
-    context "on other user's post" do      
-      it { expect { model.vote_down(user_other) }.to change{ model.rating }.by(-1) }
-    end
 
-    context "on his own post" do
-      it { expect { model.vote_down(user) }.to_not change{ model.rating }}
+    context "when votes at first time" do
+      it { expect { model.vote_down(user_other) }.to change{ model.rating }.by(-1) }
     end
 
     context "when previously voted down" do

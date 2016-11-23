@@ -26,9 +26,6 @@ RSpec.describe Ability, type: :model do
     let(:others_question) { create(:question, user: other_user) }
     let(:his_answer)      { create(:answer, user: user) }
     let(:others_answer)   { create(:answer, user: other_user) }
-    # let his question comment
-    # let his answer comment
-    # ...
 
     it { should be_able_to :read, :all }
     it { should_not be_able_to :manage, :all }
@@ -44,24 +41,12 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :update, his_answer }
     it { should_not be_able_to :update, others_answer }
 
-    it { should be_able_to :update, create(:question_comment, user: user) }
-    it { should_not be_able_to :update, create(:question_comment, user: other_user) }
-
-    it { should be_able_to :update, create(:answer_comment, user: user) }
-    it { should_not be_able_to :update, create(:answer_comment, user: other_user) }
-
     # Destroy
     it { should be_able_to :destroy, his_question }
     it { should_not be_able_to :destroy, others_question }
 
     it { should be_able_to :destroy, his_answer }
     it { should_not be_able_to :destroy, others_answer }
-
-    it { should be_able_to :destroy, create(:question_comment, user: user) }
-    it { should_not be_able_to :destroy, create(:question_comment, user: other_user) }
-
-    it { should be_able_to :destroy, create(:answer_comment, user: user) }
-    it { should_not be_able_to :destroy, create(:answer_comment, user: other_user) }
 
     # Make best answer
     it { should be_able_to :make_best, create(:answer, question: his_question) }

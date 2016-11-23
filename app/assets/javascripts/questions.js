@@ -44,12 +44,19 @@ function ready() {
     $('#q-rating-' + question_id).html(data.rating);
 
   }).on("ajax:error", function(e, xhr, status, error) {
-    question_id = $(this).data('targetId');
-    message = $.parseJSON(xhr.responseText);
-    $('.vote-error').remove();
 
+    question_id = $(this).data('targetId');
+
+    if (error == 'Forbidden') {
+      error_msg = "You can't vote for your own post";
+    } else {
+      message = $.parseJSON(xhr.responseText);
+      error_msg = message.error;
+    }
+
+    $('.vote-error').remove();
     alert = '<div class="alert alert-danger vote-error"> \
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> ' + message.error + '</div>';
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> ' + error_msg + '</div>';
 
     $('#q-content-' + question_id).prepend(alert);
   }); 
@@ -63,11 +70,17 @@ function ready() {
 
   }).on("ajax:error", '.a_vote_link', function(e, xhr, status, error) {
     answer_id = $(this).data('targetId');
-    message = $.parseJSON(xhr.responseText);
-    $('.vote-error').remove();
 
+    if (error == 'Forbidden') {
+      error_msg = "You can't vote for your own post";
+    } else {
+      message = $.parseJSON(xhr.responseText);
+      error_msg = message.error;
+    }
+
+    $('.vote-error').remove();
     alert = '<div class="alert alert-danger vote-error"> \
-    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> ' + message.error + '</div>';
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a> ' + error_msg + '</div>';
 
     $('#a-content-' + answer_id).prepend(alert);
   });

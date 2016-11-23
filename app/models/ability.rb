@@ -1,10 +1,3 @@
-# ------------------------------------------------------------------------------
-# TODO:
-# ------------------------------------------------------------------------------
-# 1) Actions: make_best, vote_up, vote_down, attachments actions, EDIT actions
-# 2) Views
-# 3) Feature specs должны проходить
-
 class Ability
   include CanCan::Ability
 
@@ -23,8 +16,8 @@ class Ability
   def user_abilities(user)
     guest_abilities
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer, Comment], user_id: user.id
-    can :destroy, [Question, Answer, Comment], user_id: user.id
+    can :update, [Question, Answer], user_id: user.id
+    can :destroy, [Question, Answer], user_id: user.id
 
     can :make_best, Answer, question: { user_id: user.id }
 

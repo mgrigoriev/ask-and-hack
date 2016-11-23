@@ -32,14 +32,8 @@ module Votable
   private
 
   def vote(user, val)
-    if user.author_of?(self)
-      error = "You can't vote for your own post"
-    else
       need_create = (has_vote_down_from?(user) && val == -1) || (has_vote_up_from?(user) && val == 1) ? false : true
       cancel_vote_from(user) 
       votes.create(user: user, value: val) if need_create
-    end
-
-    error ? [false, error] : [true, '']
   end
 end

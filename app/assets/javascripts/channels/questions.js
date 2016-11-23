@@ -4,6 +4,6 @@ App.cable.subscriptions.create('QuestionsChannel', {
     return this.perform('follow');
   },
   received: function(data) {
-    return $(".questions_list").append(data);
+    return $(".questions_list").prepend(data);
   }
 });

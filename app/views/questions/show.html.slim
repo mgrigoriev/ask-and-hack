@@ -19,12 +19,13 @@
 
       = render 'application/attachments', target: @question
 
-      - if current_user && current_user.author_of?(@question)
-        .qa_controls
+      .qa_controls
+        - if can? :update, @question
           = link_to 'edit', ' ', class: 'q_edit_link', data: { question_id: @question.id }
+        - if can? :destroy, @question
           = link_to 'delete', @question, method: :delete, data: { confirm: 'Are you sure?' }
 
-    - if current_user && current_user.author_of?(@question)
+    - if can? :update, @question
       = form_for @question, remote: true, html: { id: "q-edit-#{@question.id}"} do |f|
         .form-group
           = f.label :title, "Title"
