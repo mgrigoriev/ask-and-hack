@@ -22,18 +22,22 @@ module Votable
   end
 
   def has_vote_up_from?(user)
-    votes.find_by(user: user, value: 1).present?
+    has_vote_from?(user, 1)
   end
 
   def has_vote_down_from?(user)
-    votes.find_by(user: user, value: -1).present?
+    has_vote_from?(user, -1)
   end
 
   private
 
+  def has_vote_from?(user, val)
+    votes.exists?(user: user, value: val)
+  end
+
   def vote(user, val)
-      need_create = (has_vote_down_from?(user) && val == -1) || (has_vote_up_from?(user) && val == 1) ? false : true
-      cancel_vote_from(user) 
-      votes.create(user: user, value: val) if need_create
+    need_create = has_vote_from?(user, val) ? false : true
+    cancel_vote_from(user)
+    votes.create(user: user, value: val) if need_create
   end
 end
