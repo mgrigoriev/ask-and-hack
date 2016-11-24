@@ -110,13 +110,13 @@ describe AnswersController do
 
     context "is not question's author" do
       let(:user)     { create(:user) }
-      let(:question) { user.questions.create(title: 'My question title', body: 'My question body') }      
+      let(:question) { user.questions.create(title: 'My question title', body: 'My question body') }
       let(:answer)   { question.answers.create(body: 'My answer body 1', user: user) }
 
       it 'does not change answer attributes' do
         expect { patch :make_best, params: { id: answer.id, format: :js } }.to_not change(answer, :best)
       end
-    end    
+    end
   end
 
   describe 'DELETE #destroy' do

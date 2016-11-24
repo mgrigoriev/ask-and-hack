@@ -7,9 +7,9 @@ feature 'Delete answer', %q{
 } do 
 
   given(:author)   { create(:user) }
-  given(:stranger) { create(:user) }  
+  given(:stranger) { create(:user) }
   given(:question) { create(:question, user: author) }
-  given!(:answer)   { create(:answer, question: question, user: author) }
+  given!(:answer)  { create(:answer, question: question, user: author) }
 
   scenario 'Author deletes the answer', js: true do
     sign_in(answer.user)

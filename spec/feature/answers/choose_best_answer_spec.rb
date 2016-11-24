@@ -18,7 +18,7 @@ feature 'Choose the best answer', %q{
     sign_in(author)
     visit question_path(question)
 
-    within ".answer-#{answer2.id}" do
+    within "#answer-#{answer2.id}" do
       click_link 'make best'
       sleep 1
     end
@@ -27,7 +27,7 @@ feature 'Choose the best answer', %q{
     expect(first_answer.text).to have_content answer2.body
     expect(first_answer.text).to have_content 'best answer'
 
-    within ".answer-#{answer1.id}" do
+    within "#answer-#{answer1.id}" do
       expect(page).to_not have_content 'best answer'
     end    
   end
