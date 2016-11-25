@@ -16,17 +16,16 @@ class Ability
   def user_abilities(user)
     guest_abilities
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer], user_id: user.id
-    can :destroy, [Question, Answer], user_id: user.id
+    can [:update, :destroy], [Question, Answer], user_id: user.id
 
     can :make_best, Answer, question: { user_id: user.id }
 
-    can :vote_up, [Question, Answer]
-    can :vote_down, [Question, Answer]
-    cannot :vote_up, [Question, Answer], user_id: user.id
-    cannot :vote_down, [Question, Answer], user_id: user.id
+    can [:vote_up, :vote_down], [Question, Answer]
+    cannot [:vote_up, :vote_down], [Question, Answer], user_id: user.id
 
     can :destroy, [Attachment], attachable: { user_id: user.id }
+
+    can [:read, :me], User
   end
 
   def admin_abilities
