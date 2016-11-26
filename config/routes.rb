@@ -17,6 +17,10 @@ Rails.application.routes.draw do
       resources :profiles do
         get :me, on: :collection
       end
+
+      resources :questions do
+        get :list, on: :collection
+      end
     end
   end
 
