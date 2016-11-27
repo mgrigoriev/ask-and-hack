@@ -1,16 +1,18 @@
 require 'rails_helper'
 
-describe 'Questions API' do
+describe 'Answers API' do
   let!(:question) { create(:question) }
 
-  describe 'GET /index' do
+  describe 'GET #index' do
+    let(:url) { "/api/v1/questions/#{question.id}/answers" }
+
     it 'returns 401 status if there is no access_token' do
-      get "/api/v1/questions/#{question.id}/answers", params: { format: :json }
+      get url, params: { format: :json }
       expect(response.status).to eq 401
     end
 
-    it 'returns 401 status if there is invalid' do
-      get "/api/v1/questions/#{question.id}/answers", params: { access_token: '1234', format: :json }
+    it 'returns 401 status if access_token is invalid' do
+      get url, params: { access_token: '1234', format: :json }
       expect(response.status).to eq 401
     end
 
@@ -20,7 +22,7 @@ describe 'Questions API' do
       let(:access_token) { create(:access_token) }
 
       before do
-        get "/api/v1/questions/#{question.id}/answers", params: { access_token: access_token.token, format: :json }
+        get url, params: { access_token: access_token.token, format: :json }
       end
 
       it 'returns 200 status code' do
@@ -39,18 +41,19 @@ describe 'Questions API' do
     end
   end
 
-  describe 'GET /show' do
+  describe 'GET #show' do
     let!(:answer) { create(:answer, question: question) }
     let!(:comment) { create(:answer_comment, commentable: answer) }
     let!(:attachment) { create(:answer_attachment, attachable: answer) }
+    let(:url) { "/api/v1/answers/#{answer.id}" }
 
     it 'returns 401 status if there is no access_token' do
-      get "/api/v1/answers/#{answer.id}", params: { format: :json }
+      get url, params: { format: :json }
       expect(response.status).to eq 401
     end
 
-    it 'returns 401 status if there is invalid' do
-      get "/api/v1/answers/#{answer.id}", params: { access_token: '1234', format: :json }
+    it 'returns 401 status if access_token is invalid' do
+      get url, params: { access_token: '1234', format: :json }
       expect(response.status).to eq 401
     end
 
@@ -58,7 +61,7 @@ describe 'Questions API' do
       let(:access_token) { create(:access_token) }
 
       before do
-        get "/api/v1/answers/#{answer.id}", params: { access_token: access_token.token, format: :json }
+        get url, params: { access_token: access_token.token, format: :json }
       end
 
       it 'returns 200 status code' do
@@ -97,4 +100,61 @@ describe 'Questions API' do
     end
   end
 
+  describe 'POST #create' do
+    let(:url) { "/api/v1/questions/#{question.id}/answers" }
+
+    it 'returns 401 status if there is no access_token' do
+      post url, params: { answer: attributes_for(:answer), question_id: question.id, format: :json }
+      expect(response.status).to eq 401
+    end
+
+    it 'returns 401 status if access_token is invalid' do
+      post url, params: { answer: attributes_for(:answer), question_id: question.id, access_token: '1234', format: :json }
+      expect(response.status).to eq 401
+    end
+
+    context 'authorized and post valid data' do
+      let(:access_token) { create(:access_token) }
+      let(:params) do
+        {
+          answer:       { body: 'New answer' },
+          question_id:  question.id,
+          access_token: access_token.token,
+          format:       :json
+        }
+      end
+
+      before do
+        post url, params: params
+      end
+
+      it 'returns 201 status code' do
+        expect(response.status).to eq 201
+      end
+    end
+
+    context 'authorized and post invalid data' do
+      let(:access_token) { create(:access_token) }
+      let(:params) do
+        {
+          answer:       { body: nil },
+          question_id:  question.id,
+          access_token: access_token.token,
+          format:       :json
+        }
+      end
+
+      before do
+        post url, params: params
+      end
+
+      it 'returns 422 status code' do
+        expect(response.status).to eq 422
+      end
+
+      it 'returns errors' do
+        expect(response.body).to have_json_size(2).at_path("errors/body")
+      end
+    end
+  end
 end

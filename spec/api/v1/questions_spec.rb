@@ -1,14 +1,16 @@
 require 'rails_helper'
 
 describe 'Questions API' do
-  describe 'GET /index' do
+  describe 'GET #index' do
+    let(:url) { '/api/v1/questions' }
+
     it 'returns 401 status if there is no access_token' do
-      get '/api/v1/questions', params: { format: :json }
+      get url, params: { format: :json }
       expect(response.status).to eq 401
     end
 
-    it 'returns 401 status if there is invalid' do
-      get '/api/v1/questions', params: { access_token: '1234', format: :json }
+    it 'returns 401 status if access_token is invalid' do
+      get url, params: { access_token: '1234', format: :json }
       expect(response.status).to eq 401
     end
 
@@ -19,7 +21,7 @@ describe 'Questions API' do
       let!(:answer) { create(:answer, question: question) }
 
       before do
-        get '/api/v1/questions', params: { access_token: access_token.token, format: :json }
+        get url, params: { access_token: access_token.token, format: :json }
       end
 
       it 'returns 200 status code' do
@@ -50,14 +52,16 @@ describe 'Questions API' do
     end
   end
 
-  describe 'GET /list' do
+  describe 'GET #list' do
+    let(:url) { '/api/v1/questions/list' }
+
     it 'returns 401 status if there is no access_token' do
-      get '/api/v1/questions/list', params: { format: :json }
+      get url, params: { format: :json }
       expect(response.status).to eq 401
     end
 
-    it 'returns 401 status if there is invalid' do
-      get '/api/v1/questions/list', params: { access_token: '1234', format: :json }
+    it 'returns 401 status if access_token is invalid' do
+      get url, params: { access_token: '1234', format: :json }
       expect(response.status).to eq 401
     end
 
@@ -67,7 +71,7 @@ describe 'Questions API' do
       let(:access_token) { create(:access_token) }
 
       before do
-        get '/api/v1/questions/list', params: { access_token: access_token.token, format: :json }
+        get url, params: { access_token: access_token.token, format: :json }
       end
 
       it 'returns 200 status code' do
@@ -86,18 +90,19 @@ describe 'Questions API' do
     end
   end
 
-  describe 'GET /show' do
+  describe 'GET #show' do
     let(:question) { create(:question) }
     let!(:comment) { create(:question_comment, commentable: question) }
     let!(:attachment) { create(:question_attachment, attachable: question) }
+    let(:url) { "/api/v1/questions/#{question.id}" }
 
     it 'returns 401 status if there is no access_token' do
-      get "/api/v1/questions/#{question.id}", params: { format: :json }
+      get url, params: { format: :json }
       expect(response.status).to eq 401
     end
 
-    it 'returns 401 status if there is invalid' do
-      get "/api/v1/questions/#{question.id}", params: { access_token: '1234', format: :json }
+    it 'returns 401 status if access_token is invalid' do
+      get url, params: { access_token: '1234', format: :json }
       expect(response.status).to eq 401
     end
 
@@ -105,7 +110,7 @@ describe 'Questions API' do
       let(:access_token) { create(:access_token) }
 
       before do
-        get "/api/v1/questions/#{question.id}", params: { access_token: access_token.token, format: :json }
+        get url, params: { access_token: access_token.token, format: :json }
       end
 
       it 'returns 200 status code' do
@@ -144,4 +149,60 @@ describe 'Questions API' do
     end
   end
 
+  describe 'POST #create' do
+    let(:url) { "/api/v1/questions/" }
+
+    it 'returns 401 status if there is no access_token' do
+      post url, params: { question: attributes_for(:question), format: :json }
+      expect(response.status).to eq 401
+    end
+
+    it 'returns 401 status if access_token is invalid' do
+      post url, params: { question: attributes_for(:question), access_token: '1234', format: :json }
+      expect(response.status).to eq 401
+    end
+
+    context 'authorized and post valid data' do
+      let(:access_token) { create(:access_token) }
+      let(:params) do
+        {
+          question:     { title: 'New question title', body: 'New question body' },
+          access_token: access_token.token,
+          format:      :json
+        }
+      end
+
+      before do
+        post url, params: params
+      end
+
+      it 'returns 201 status code' do
+        expect(response.status).to eq 201
+      end
+    end
+
+    context 'authorized and post invalid data' do
+      let(:access_token) { create(:access_token) }
+      let(:params) do
+        {
+          question:     { title: 'Question title', body: nil },
+          access_token: access_token.token,
+          format:      :json
+        }
+      end
+
+      before do
+        post url, params: params
+      end
+
+      it 'returns 422 status code' do
+        expect(response.status).to eq 422
+      end
+
+      it 'returns errors' do
+        expect(response.body).to have_json_size(2).at_path("errors/body")
+      end
+
+    end
+  end
 end
