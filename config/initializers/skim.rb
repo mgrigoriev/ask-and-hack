@@ -1,1 +1,1 @@
-Skim::Engine.default_options[:use_asset] = true
+Skim::Engine.options[:use_asset] = true

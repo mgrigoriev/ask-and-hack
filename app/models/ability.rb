@@ -26,6 +26,7 @@ class Ability
     can :destroy, [Attachment], attachable: { user_id: user.id }
 
     can [:read, :me], User
+    can :list, Question
   end
 
   def admin_abilities

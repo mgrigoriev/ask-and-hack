@@ -8,10 +8,10 @@ feature 'Choose the best answer', %q{
 
 
   given(:author)   { create(:user) }
-  given(:stranger) { create(:user) }  
+  given(:stranger) { create(:user) }
   given(:question) { create(:question, user: author) }
   given!(:answer1) { create(:answer, question: question, body: 'My answer 1', best: true) }
-  given!(:answer2) { create(:answer, question: question, body: 'My answer 2') }  
+  given!(:answer2) { create(:answer, question: question, body: 'My answer 2') }
 
 
   scenario "Author changes the best answer to his question", js: true do
@@ -29,7 +29,7 @@ feature 'Choose the best answer', %q{
 
     within "#answer-#{answer1.id}" do
       expect(page).to_not have_content 'best answer'
-    end    
+    end
   end
 
   scenario "User tries to change the best answer to other user's question", js: true do
