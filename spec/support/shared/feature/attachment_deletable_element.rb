@@ -6,7 +6,7 @@ shared_examples_for 'Attachment deletable element' do
     expect(page).to_not have_link 'file_1.txt', href: '/uploads/attachment/file/1/file_1.txt'
   end
 
-  scenario "User tries to delete file attached to other user's answer", js: true do
+  scenario "User tries to delete file attached to other user's post", js: true do
     sign_out
     sign_in(stranger)
     visit path
