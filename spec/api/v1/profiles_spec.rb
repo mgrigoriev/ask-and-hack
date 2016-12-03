@@ -1,25 +1,19 @@
 require 'rails_helper'
+require_relative 'api_helper'
 
 describe 'Profile API' do
   describe 'GET /me' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/profiles/me', params: { format: :json }
-        expect(response.status).to eq 401
-      end
 
-      it 'returns 401 status if there is invalid' do
-        get '/api/v1/profiles/me', params: { access_token: '1234', format: :json }
-        expect(response.status).to eq 401
-      end
-    end
+    let(:url) { '/api/v1/profiles/me' }
+
+    it_behaves_like 'API Authenticatable'
 
     context 'authorized' do
       let(:me) { create(:user) }
       let(:access_token) { create(:access_token, resource_owner_id: me.id) }
 
       before do
-        get '/api/v1/profiles/me', params: { access_token: access_token.token, format: :json }
+        do_request(url, { access_token: access_token.token })
       end
 
       it 'returns 200 status code' do
@@ -41,24 +35,16 @@ describe 'Profile API' do
   end
 
   describe 'GET /index' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/profiles', params: { format: :json }
-        expect(response.status).to eq 401
-      end
+    let(:url) { '/api/v1/profiles' }
 
-      it 'returns 401 status if there is invalid' do
-        get '/api/v1/profiles', params: { access_token: '1234', format: :json }
-        expect(response.status).to eq 401
-      end
-    end
+    it_behaves_like 'API Authenticatable'
 
     context 'authorized' do
       let(:users) { create_list(:user, 3) }
       let(:access_token) { create(:access_token, resource_owner_id: users.first.id) }
 
       before do
-        get '/api/v1/profiles', params: { access_token: access_token.token, format: :json }
+        do_request(url, { access_token: access_token.token })
       end
 
       it 'returns 200 status code' do
@@ -75,5 +61,4 @@ describe 'Profile API' do
       end
     end
   end
-
 end

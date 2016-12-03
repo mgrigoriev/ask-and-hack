@@ -18,20 +18,8 @@ feature 'Delete file attached to the question', %q{
     click_on 'Post Your Question'
   end
 
-  scenario 'User deletes file attached to his question', js: true do
-    within '.attachments' do
-      click_on '[x]'
-    end
-    expect(page).to_not have_link 'file_1.txt', href: '/uploads/attachment/file/1/file_1.txt'
-  end
-
-  scenario "User tries to delete file attached to other user's question", js: true do
-    sign_out
-    sign_in(stranger)
-    visit '/questions/1'
-
-    within '.attachments' do
-      expect(page).to_not have_link '[x]'
-    end
+  it_behaves_like 'Attachment deletable element' do
+    given(:stranger) { create(:user) }
+    given(:path) { '/questions/1' }
   end
 end

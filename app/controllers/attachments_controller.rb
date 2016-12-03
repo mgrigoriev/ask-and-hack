@@ -13,6 +13,6 @@ class AttachmentsController < ApplicationController
   private
 
   def load_attachment
-    @attachment = Attachment.find(params['id'])
+    @attachment = Attachment.find(params[:id])
   end
 end

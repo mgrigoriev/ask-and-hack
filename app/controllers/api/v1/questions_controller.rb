@@ -27,7 +27,7 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   end
 
   def load_question
-    @question = Question.find(params['id'])
+    @question = Question.find(params[:id])
   end
 
   def question_params
