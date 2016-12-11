@@ -46,4 +46,6 @@ Rails.application.configure do
 
   config.action_cable.disable_request_forgery_protection = true
   config.action_cable.allowed_request_origins = ['http://localhost:3000', 'http://rspec.local:5000']
+
+  # Delayed::Worker.delay_jobs = false
 end

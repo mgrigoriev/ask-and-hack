@@ -27,6 +27,8 @@ module AskAndHack
 
     config.action_cable.disable_request_forgery_protection = true
 
+    config.active_job.queue_adapter = :sidekiq
+
     config.generators do |g|
       g.test_framework :rspec,
                        fixtures: true,

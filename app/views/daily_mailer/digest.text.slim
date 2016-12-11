@@ -1,0 +1,7 @@
+' Daily digest
+= "\r\n" * 2
+
+- if @questions.any?
+  - @questions.each do |question|
+    = question.title + ":\r\n"
+    = question_url(question) + "\r\n" * 2
