@@ -20,6 +20,15 @@
       = render 'application/attachments', target: @question
 
       .qa_controls
+        span.subscribe
+          - if current_user && current_user.subscribed_to?(@question)
+            = link_to 'unsubscribe', Subscription.find_by(user: current_user, question: @question),
+                method: :delete, remote: true
+          - else
+            - if can? :create, Subscription
+              = link_to 'subscribe', question_subscriptions_path(@question),
+                method: :post, remote: true
+
         - if can? :update, @question
           = link_to 'edit', ' ', class: 'q_edit_link', data: { question_id: @question.id }
         - if can? :destroy, @question
