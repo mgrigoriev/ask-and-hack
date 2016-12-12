@@ -7,6 +7,6 @@ RSpec.describe DailyDigestJob, type: :job do
   it 'sends daily digest' do
     expect(DailyMailer).to receive(:digest).with(user).and_call_original
 
-    Sidekiq::Testing.fake! { DailyDigestJob.perform_now }
+    DailyDigestJob.perform_now
   end
 end
