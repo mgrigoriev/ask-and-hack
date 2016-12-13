@@ -26,6 +26,11 @@ gem 'doorkeeper'
 gem 'active_model_serializers'
 gem 'oj'
 gem 'oj_mimic_json'
+# gem 'delayed_job_active_record'
+gem 'sidekiq'
+gem 'whenever'
+# gem 'sidetiq'
+gem 'sinatra', git: 'https://github.com/sinatra/sinatra.git', require: nil
 
 group :development, :test do
   gem 'byebug', platform: :mri
@@ -35,7 +40,7 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'factory_girl_rails'
   gem 'launchy'
-  gem 'capybara'
+  gem 'capybara', '~> 2.11.0'
   gem 'capybara-webkit'
   gem 'capybara-email'
   gem 'database_cleaner'

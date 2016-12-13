@@ -4,6 +4,9 @@ RSpec.describe User, type: :model do
   it { should have_many(:questions) }
   it { should have_many(:answers) }
   it { should have_many(:votes) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
+  it { should have_many(:subscribed_questions).through(:subscriptions).source(:question) }
+
 
   it { should validate_presence_of :email }
   it { should validate_presence_of :password }
@@ -28,6 +31,21 @@ RSpec.describe User, type: :model do
 
     context "when user is not the answer's author" do
       it { expect(stranger).to_not be_author_of(answer) }
+    end
+  end
+
+  describe '#subscribed_to?' do
+    let(:subscribed_user) { create(:user) }
+    let(:not_subscribed_user) { create(:user) }
+    let(:question) { create(:question) }
+    let!(:subscription) { create(:subscription, user: subscribed_user, question: question) }
+
+    context 'when user is subscribed' do
+      it { expect(subscribed_user).to be_subscribed_to(question) }
+    end
+
+    context 'when user is not subscribed' do
+      it { expect(not_subscribed_user).to_not be_subscribed_to(question) }
     end
   end
 

@@ -20,12 +20,14 @@ RSpec.describe Ability, type: :model do
   end
 
   describe 'for user' do
-    let(:user)            { create(:user) }
-    let(:other_user)      { create(:user) }
-    let(:his_question)    { create(:question, user: user) }
-    let(:others_question) { create(:question, user: other_user) }
-    let(:his_answer)      { create(:answer, user: user) }
-    let(:others_answer)   { create(:answer, user: other_user) }
+    let(:user)                { create(:user) }
+    let(:other_user)          { create(:user) }
+    let(:his_question)        { create(:question, user: user) }
+    let(:others_question)     { create(:question, user: other_user) }
+    let(:his_answer)          { create(:answer, user: user) }
+    let(:others_answer)       { create(:answer, user: other_user) }
+    let(:his_subscription)    { create(:subscription, user: user) }
+    let(:others_subscription) { create(:subscription, user: other_user) }
 
     it { should be_able_to :read, :all }
     it { should_not be_able_to :manage, :all }
@@ -33,6 +35,7 @@ RSpec.describe Ability, type: :model do
     it { should be_able_to :create, Question }
     it { should be_able_to :create, Answer }
     it { should be_able_to :create, Comment }
+    it { should be_able_to :create, Subscription }
 
     # Update
     it { should be_able_to :update, his_question }
@@ -47,6 +50,9 @@ RSpec.describe Ability, type: :model do
 
     it { should be_able_to :destroy, his_answer }
     it { should_not be_able_to :destroy, others_answer }
+
+    it { should be_able_to :destroy, his_subscription }
+    it { should_not be_able_to :destroy, others_subscription }
 
     # Make best answer
     it { should be_able_to :make_best, create(:answer, question: his_question) }

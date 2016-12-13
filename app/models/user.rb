@@ -5,12 +5,18 @@ class User < ApplicationRecord
   has_many :answers
   has_many :votes
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
+  has_many :subscribed_questions, through: :subscriptions, source: :question
 
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :trackable,
          :validatable, :confirmable, :omniauthable, omniauth_providers: [:facebook, :twitter]
 
   def author_of?(resource)
     resource.user_id == id
+  end
+
+  def subscribed_to?(question)
+    Subscription.exists?(user_id: id, question_id: question.id)
   end
 
   def create_authorization(auth)
