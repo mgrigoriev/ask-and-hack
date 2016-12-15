@@ -16,7 +16,7 @@ class User < ApplicationRecord
   end
 
   def subscribed_to?(question)
-    Subscription.exists?(user_id: id, question_id: question.id)
+    subscriptions.where(question: question).any?
   end
 
   def create_authorization(auth)

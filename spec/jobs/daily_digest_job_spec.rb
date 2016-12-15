@@ -2,11 +2,13 @@ require 'rails_helper'
 
 RSpec.describe DailyDigestJob, type: :job do
 
-  let!(:user) { create(:user) }
+  let!(:users) { create_list(:user, 2) }
 
   it 'sends daily digest' do
-    expect(DailyMailer).to receive(:digest).with(user).and_call_original
+    users.each do |user|
+      expect(DailyMailer).to receive(:digest).with(user).and_call_original
+    end
 
-    DailyDigestJob.perform_now
+    Sidekiq::Testing.fake! { DailyDigestJob.perform_now }
   end
 end
