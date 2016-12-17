@@ -1,0 +1,6 @@
+- if target.commentable.is_a? Question
+  = link_to "C: #{target.commentable.title}", question_path(target.commentable)
+- else
+  = link_to "C: #{target.commentable.question.title}", question_path(target.commentable.question)
+
+p = target.body

@@ -1,0 +1,14 @@
+h1 Search
+
+= render "search_form"
+
+- if params[:query]
+  h3 Search results:
+
+  - if @results.present?
+    .search_results
+      - @results.each do |result|
+        .search_result
+          = render "#{result.class.name.underscore}", target: result
+  - else
+    | No results

@@ -26,11 +26,11 @@ gem 'doorkeeper'
 gem 'active_model_serializers'
 gem 'oj'
 gem 'oj_mimic_json'
-# gem 'delayed_job_active_record'
 gem 'sidekiq'
 gem 'whenever'
-# gem 'sidetiq'
 gem 'sinatra', git: 'https://github.com/sinatra/sinatra.git', require: nil
+gem 'mysql2'
+gem 'thinking-sphinx'
 
 group :development, :test do
   gem 'byebug', platform: :mri
