@@ -17,14 +17,14 @@ class Ability
     guest_abilities
     can :create, [Question, Answer, Comment, Subscription]
     can [:update, :destroy], [Question, Answer], user_id: user.id
-    can [:destroy], [Subscription], user_id: user.id
+    can :destroy, Subscription, user_id: user.id
 
     can :make_best, Answer, question: { user_id: user.id }
 
     can [:vote_up, :vote_down], [Question, Answer]
     cannot [:vote_up, :vote_down], [Question, Answer], user_id: user.id
 
-    can :destroy, [Attachment], attachable: { user_id: user.id }
+    can :destroy, Attachment, attachable: { user_id: user.id }
 
     can [:read, :me], User
     can :list, Question

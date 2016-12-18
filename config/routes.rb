@@ -1,6 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
+
   authenticate :user, lambda { |u| u.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
@@ -52,6 +53,8 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: :destroy
+
+  resource :search, only: :show
 
   root to: 'questions#index'
 
