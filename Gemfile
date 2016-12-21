@@ -31,6 +31,7 @@ gem 'whenever'
 gem 'sinatra', git: 'https://github.com/sinatra/sinatra.git', require: nil
 gem 'mysql2'
 gem 'thinking-sphinx'
+gem 'therubyracer'
 # gem 'dotenv'
 # gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
