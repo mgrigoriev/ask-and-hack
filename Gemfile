@@ -36,6 +36,7 @@ gem 'therubyracer'
 # gem 'dotenv-deployment', require: 'dotenv/deployment'
 gem 'dotenv-rails', :require => 'dotenv/rails-now'
 gem 'unicorn'
+gem 'redis-rails'
 
 
 group :development, :test do

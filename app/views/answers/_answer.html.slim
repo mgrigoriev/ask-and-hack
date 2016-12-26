@@ -11,17 +11,18 @@
               method: :patch, remote: true,
               class: 'a_vote_link',
               id: "a-vote-down-#{answer.id}",
-              data: { type: :json, target_id: answer.id }   
+              data: { type: :json, target_id: answer.id }
 
     .a_main
       div id="a-content-#{answer.id}"
-        - if answer.best
-          b best answer
-          
-        p id="a-text-#{answer.id}"
-          = answer.body
+        - cache answer do
+          - if answer.best
+            b best answer
+            
+          p id="a-text-#{answer.id}"
+            = answer.body
 
-        = render 'application/attachments', target: answer
+          = render 'application/attachments', target: answer
 
         .qa_controls id="a-controls-#{answer.id}"
           - if can? :make_best, answer

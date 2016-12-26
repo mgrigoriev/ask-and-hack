@@ -14,10 +14,11 @@
 
   .q_main
     div id="q-content-#{@question.id}"
-      h1 id="q-title-#{@question.id}" = @question.title
-      p id="q-body-#{@question.id}" = @question.body
+      - cache @question do
+        h1 id="q-title-#{@question.id}" = @question.title
+        p id="q-body-#{@question.id}" = @question.body
 
-      = render 'application/attachments', target: @question
+        = render 'application/attachments', target: @question
 
       .qa_controls
         span.subscribe
