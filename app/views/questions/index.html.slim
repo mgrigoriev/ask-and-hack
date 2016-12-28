@@ -2,5 +2,6 @@ h1 Questions
 
 .questions_list
   - if @questions.present?
-    - @questions.each do |question|
-      = render question
+    - cache collection_cache_key_for :question do
+      - @questions.each do |question|
+        = render question
